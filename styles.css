@@ -1,0 +1,41 @@
+* {
+    font-family: Sarabun;
+}
+body {
+    margin: 0;
+}
+h1{
+    text-align: center;
+    font-family: Yeon Sung;
+}
+
+#logo{
+    border: 1px solid black;
+}
+#settings{
+    border: 1px solid black;
+    font-size: 25px;
+    padding: 1em;
+    display: inline-block;
+    width: 30%;
+    height: 100%;
+}
+.elem_settings{
+    padding-bottom: 1em;
+}
+.center_elem{
+    text-align: center;
+}
+.left_button{
+    margin: 1em 1em 0 0;
+    font-size: 20px;
+}
+.right_button{
+    margin: 1em 0 0 1em;
+    font-size: 20px;
+}
+
+select{
+    float:right;
+    font-size: 20px;
+}
