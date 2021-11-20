@@ -7,10 +7,33 @@
         <link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Yeon Sung|Sarabun">
     </head>
     <body>
-        <div id = "logo">
+        <div class="rules">
+            <div id = "link1">
+                <button type ="button"><a href ="#">X</a></button>
+                <h1 class = "center_elem">Regras:</h1>
+
+                <b class = "rules_section">Tabuleiro</b>
+                <img src="tabuleiro1.png" alt="Tabuleiro de Mancala vazio">
+                <ul></ul>
+                <li>2 conjuntos de cavidades centrais alinhadas</li>
+                <li>Ladeados por 2 armazéns — cavidades maiores</li>
+                <li>Cada jogador controla as cavidades do seu lado …</li>
+                <li>… bem como o armazém que fica à sua direita</li>
+
+                <b class = "rules_section">Peças</b>
+                <img src="pecas.png" alt="Peças de Mancala">
+                <ul></ul>
+                <li>As peças denominam-se sementes</li>
+                <li>Representáveis visualmente como discos ou elipses</li>
+                <li>Devem ser dispostas dentro das cavidades</li>
+                <li>Desafio extra: evitar uma disposição excessivamente regular</li>
+            </div>
+            
+        </div>
+        <div id = "logo" class = "border">
             <h1>Mancala</h1>
         </div>
-        <div id = "settings">
+        <div id = "settings" class = "border">
             <div class = "elem_settings">
                 Número de cavidades por lado:
                 <select name = "cavidades">
@@ -34,35 +57,54 @@
             <div class = "elem_settings center_elem">
                 Tipo de Jogo:
                 <div>
-                    <button type ="button" class = "left_button">Vs Jogador</button>
-                    <button type ="button" class = "right_button">Vs Computador</button>
+                    <button type ="button" class = "left_button medium_button">Vs Jogador</button>
+                    <button type ="button" class = "right_button medium_button">Vs Computador</button>
                 </div>
             </div>
             <div class = "elem_settings center_elem">
                 1º Jogador:
                 <div>
-                    <button type ="button" class = "left_button">Jogador</button>
-                    <button type ="button" class = "right_button">Computador</button>
+                    <button type ="button" class = "left_button medium_button">Jogador</button>
+                    <button type ="button" class = "right_button medium_button">Computador</button>
                 </div>
             </div>
             <div class ="elem_settings">
                 Nível do computador:
-                <form>
-                    <input type = "radio" id = "1" name= "1" value = "1"> 
-                    <label for = "1"></label>
-                    <input type = "radio" id = "2" name= "2" value = "2"> 
-                    <label for = "2"></label>
-                    <input type = "radio" id = "3" name= "3" value = "3"> 
-                    <label for = "3"></label>
-                    <input type = "radio" id = "4" name= "4" value = "4"> 
-                    <label for = "4"></label>
-                    <input type = "radio" id = "5" name= "5" value = "5"> 
-                    <label for = "5"></label>
+                <div class = "center_elem uper_border">
+                    <label class = "radio_button_label">1</label>
+                    <label class = "radio_button_label">2</label>
+                    <label class = "radio_button_label">3</label>
+                    <label class = "radio_button_label">4</label>
+                    <label class = "radio_button_label">5</label>
+                </div>
+                <form class = "center_elem">
+                    <input type = "radio" id = "1" name= "1" value = "1" class = "radio_button"> 
+                    <input type = "radio" id = "2" name= "2" value = "2" class = "radio_button"> 
+                    <input type = "radio" id = "3" name= "3" value = "3" class = "radio_button"> 
+                    <input type = "radio" id = "4" name= "4" value = "4" class = "radio_button"> 
+                    <input type = "radio" id = "5" name= "5" value = "5" class = "radio_button"> 
                 </form>
-
-
             </div>
-            
+            <div class = "center_elem">
+                <button type ="button" class = "big_button">Começar</button>
+            </div>
+        </div>
+        <div id = "commands" class = "border">
+            <div class = "auth">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" class ="input_auth"><br><br>
+
+                <label for="password">Password:</label>
+                <input type="text" id="password" name="password" class ="input_auth"><br><br>
+            </div>
+            <div class = "pop_ups">
+                <button type ="button" class = " right_button pop_up_buttons instructions_button"><a href="#link1">Instruções</a></button>
+                <button type ="button" class = " right_button pop_up_buttons classifications_button">Calssificar</button>
+            </div>
+            <div class = "game_controls">
+                <button type ="button" class = "auth_button game_buttons" >Autenticar</button>
+                <button type ="button" class = "give_up_button game_buttons">Desistir</button>
+            </div>
         </div>
 
     </body>
