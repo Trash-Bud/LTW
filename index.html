@@ -5,14 +5,38 @@
         <title>Mancala</title> 
         <link rel = "stylesheet" href="styles.css">
         <link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Yeon Sung|Sarabun">
+
+        <script>
+            function getFormResult(id){
+                const element = document.getElementById(id);
+                return element.options[element.selectedIndex].value;
+            }
+
+            function createBoard(){
+                const div1 = document.createElement("DIV");
+                    const div2 = document.createElement("DIV");
+                    for (let i = 0; i < getFormResult("cavidades"); i++){
+		                let spn = document.createElement("SPAN");
+                        let spn2 = document.createElement("SPAN");
+                        let t = document.createTextNode("&nbsp ");
+                        let t2 = document.createTextNode("&nbsp ");
+		                spn.appendChild(t);
+                        spn2.appendChild(t2);
+                        div1.appendChild(spn);
+                        div2.appendChild(spn2);
+                        }
+                    document.body.appendChild(div1);
+                    document.body.appendChild(div2);
+            }
+        </script>
     </head>
     <body>
-        <div class="rules">
-            <div id = "instructions">
-                <a href ="#"><button type ="button">X</button></a>
+        <div class="pop_up">
+            <div id="instructions">
+                <a href ="#"><button type="button">X</button></a>
 
-                <h1 class = "center_elem">Regras:</h1>
-                <b class = "rules_section">Tabuleiro</b>
+                <h1 class="center_elem">Regras:</h1>
+                <b class="rules_section">Tabuleiro</b>
                 <img src="tabuleiro1.png" alt="Tabuleiro de Mancala vazio">
                 <ul></ul>
                 <li>2 conjuntos de cavidades centrais alinhadas</li>
@@ -20,7 +44,7 @@
                 <li>Cada jogador controla as cavidades do seu lado …</li>
                 <li>… bem como o armazém que fica à sua direita</li>
                 <p></p>
-                <b class = "rules_section">Peças</b>
+                <b class="rules_section">Peças</b>
                 <img src="pecas.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>As peças denominam-se sementes</li>
@@ -28,13 +52,13 @@
                 <li>Devem ser dispostas dentro das cavidades</li>
                 <li>Desafio extra: evitar uma disposição excessivamente regular</li>
                 <p></p>
-                <b class = "rules_section">Início do jogo</b>
+                <b class="rules_section">Início do jogo</b>
                 <img src="inicio.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Os armazéns estão vazios (sem sementes)</li>
                 <li>As restantes cavidades têm o mesmo número de sementes</li>
                 <p></p>
-                <b class = "rules_section">Forma de jogar</b>
+                <b class="rules_section">Forma de jogar</b>
                 <img src="inicio.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Jogadores semeiam as suas sementes alternadamente</li>
@@ -44,7 +68,7 @@
                     <dd>- ficar com algumas sementes do adversário</dd>
                 <li>Termina quando um dos jogadores fica sem sementes</li>
                 <p></p>
-                <b class = "rules_section">Começar a semear</b>
+                <b class="rules_section">Começar a semear</b>
                 <img src="semear.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Escolher uma cavidade do seu lado (que não o armazém)</li>
@@ -52,7 +76,7 @@
                 <li>Colocar 1 semente nas N cavidade seguintes</li>
                 <li>A semeadura é feita no sentido anti-horário</li>
                 <p></p>
-                <b class = "rules_section">Continuar a semear</b>
+                <b class="rules_section">Continuar a semear</b>
                 <img src="semear2.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Se a cavidade seguinte for o seu armazém, semear também</li>
@@ -60,12 +84,12 @@
                 <li>Se atingir o armazém do adversário, não semear</li>
                 <li>Mas depois continuar do seu lado, se ainda tiver sementes</li>
                 <p></p>
-                <b class = "rules_section">Última semente em armazem</b>
+                <b class="rules_section">Última semente em armazem</b>
                 <img src="ultimo.png" alt="Peças de Mancala">
                 Volta a jogar se a <b>última</b> semente for semeada for no seu próprio <b>armazém</b>
                 <p>Semeando cavidade agora vazia, a última semente cai no armazém e volta a jogar</p>
                 <p></p>
-                <b class = "rules_section">Última semente em cavidade vazia</b>
+                <b class="rules_section">Última semente em cavidade vazia</b>
                 <img src="ultima semente.png" alt="Peças de Mancala">
                 Se a <b>última</b> semente calhar numa <b>sua</b> cavidade <b>vazia</b>, transferir para o seu armazém as sementes
                 <ul></ul>
@@ -74,7 +98,7 @@
                 <p></p>
                 <i>Semeando a partir da 3ª cavidade a contar da esquerda acrescenta 6 + 1 sementes ao seu armazém</i>
                 <p></p>
-                <b class = "rules_section">Terminar</b>
+                <b class="rules_section">Terminar</b>
                 <img src="terminar.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Jogo termina quando um dos jogadores não pode jogar</li>
@@ -85,82 +109,150 @@
             </div>
             
         </div>
-        <div id = "logo" class = "border">
+        <div class="pop_up">
+            <div id="classificacao">
+                <a href="#"><button type="button">X</button></a>
+                <h1 class="center_elem">Highscores:</h1>
+            </div>
+        </div>
+        <div id="logo" class="border">
             <h1>Mancala</h1>
         </div>
-        <div id = "settings" class = "border">
-            <div class = "elem_settings">
+        <div id="settings" class="border">
+            <div class="elem_settings">
                 Número de cavidades por lado:
-                <select name = "cavidades">
-                    <option value = "6"> 6</option>
-                    <option value = "7"> 7</option>
-                    <option value = "8"> 8</option>
-                    <option value = "9"> 9</option>
+                <select id="cavidades" name="cavidades" size="1" onchange="createBoard()">
+                    <option value="6"> 6</option>
+                    <option value="7"> 7</option>
+                    <option value="8"> 8</option>
+                    <option value="9"> 9</option>
                 </select>
             </div>
-            <div class = "elem_settings">
+            <div class="elem_settings">
                 Número de sementes por cavidade:
-                <select name = "sementes">
-                    <option value = "4"> 4</option>
-                    <option value = "5"> 5</option>
-                    <option value = "6"> 6</option>
-                    <option value = "7"> 7</option>
-                    <option value = "8"> 8</option>
-                    <option value = "9"> 9</option>
+                <select id="sementes" name="sementes" size="1">
+                    <option value="4"> 4</option>
+                    <option value="5"> 5</option>
+                    <option value="6"> 6</option>
+                    <option value="7"> 7</option>
+                    <option value="8"> 8</option>
+                    <option value="9"> 9</option>
                 </select>
             </div>
-            <div class = "elem_settings center_elem">
+            <div class="elem_settings center_elem">
                 Tipo de Jogo:
                 <div>
-                    <button type ="button" class = "left_button medium_button">Vs Jogador</button>
-                    <button type ="button" class = "right_button medium_button">Vs Computador</button>
+                    <button type="button" class="left_button medium_button">Vs Jogador</button>
+                    <button type="button" class="right_button medium_button">Vs Computador</button>
                 </div>
             </div>
-            <div class = "elem_settings center_elem">
+            <div class="elem_settings center_elem">
                 1º Jogador:
                 <div>
-                    <button type ="button" class = "left_button medium_button">Jogador</button>
-                    <button type ="button" class = "right_button medium_button">Computador</button>
+                    <button type="button" class="left_button medium_button">Jogador</button>
+                    <button type="button" class="right_button medium_button">Computador</button>
                 </div>
             </div>
-            <div class ="elem_settings">
+            <div class="elem_settings">
                 Nível do computador:
-                <div class = "center_elem uper_border">
-                    <label class = "radio_button_label">1</label>
-                    <label class = "radio_button_label">2</label>
-                    <label class = "radio_button_label">3</label>
-                    <label class = "radio_button_label">4</label>
-                    <label class = "radio_button_label">5</label>
+                <div class="center_elem uper_border">
+                    <label class="radio_button_label">1</label>
+                    <label class="radio_button_label">2</label>
+                    <label class="radio_button_label">3</label>
+                    <label class="radio_button_label">4</label>
+                    <label class="radio_button_label">5</label>
                 </div>
-                <form class = "center_elem">
-                    <input type = "radio" id = "1" name= "1" value = "1" class = "radio_button"> 
-                    <input type = "radio" id = "2" name= "2" value = "2" class = "radio_button"> 
-                    <input type = "radio" id = "3" name= "3" value = "3" class = "radio_button"> 
-                    <input type = "radio" id = "4" name= "4" value = "4" class = "radio_button"> 
-                    <input type = "radio" id = "5" name= "5" value = "5" class = "radio_button"> 
+                <form class="center_elem">
+                    <input type="radio" id="1" name="radio_answer" value="1" class="radio_button"> 
+                    <input type="radio" id="2" name="radio_answer" value="2" class="radio_button"> 
+                    <input type="radio" id="3" name="radio_answer" value="3" class="radio_button"> 
+                    <input type="radio" id="4" name="radio_answer" value="4" class="radio_button"> 
+                    <input type="radio" id="5" name="radio_answer" value="5" class="radio_button"> 
                 </form>
             </div>
-            <div class = "center_elem">
-                <button type ="button" class = "big_button">Começar</button>
+            <div class="center_elem">
+                <button type="button" class="big_button">Começar</button>
             </div>
         </div>
-        <div id = "commands" class = "border">
-            <div class = "auth">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" class ="input_auth"><br><br>
+        <div id="commands" class="border">
+            <div>
+                <div class="auth">
+                    <div>
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" class ="input_auth"><br><br>
+                    </div>
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="text" id="password" name="password" class ="input_auth"><br><br>
+                    </div>
+                </div>
+                <div class = "pop_ups">
+                    <a href="#instructions"><button type="button" class=" right_button pop_up_buttons">Instruções</button></a>
+                    <a href="#classificacao"><button type="button" class=" right_button pop_up_buttons">Classificações</button></a>
+                </div>
+            </div>
+            <div class="game_controls">
+                <button type="button" class="auth_button game_buttons">Autenticar</button>
+                <button type="button" class="give_up_button game_buttons">Desistir</button>
+            </div>
+        </div>
+        <div id = "board">
+            <div id = "containers">
+                <div class = "container">
+                    &nbsp
+                </div>
+            </div>
+            <div id="cavities">
 
-                <label for="password">Password:</label>
-                <input type="text" id="password" name="password" class ="input_auth"><br><br>
+                <div class="row"> 
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                        <div class="cavity">
+                            &nbsp
+                        </div>
+                    </div> 
+
             </div>
-            <div class = "pop_ups">
-                <a href="#instructions"><button type ="button" class = " right_button pop_up_buttons instructions_button">Instruções</button></a>
-                <button type ="button" class = " right_button pop_up_buttons classifications_button">Calssificar</button>
+            <div id = "containers">
+                <div class = "container">
+                    &nbsp
+                </div>
             </div>
-            <div class = "game_controls">
-                <button type ="button" class = "auth_button game_buttons" >Autenticar</button>
-                <button type ="button" class = "give_up_button game_buttons">Desistir</button>
-            </div>
-        </div>
+    </div>
 
     </body>
 </html>
