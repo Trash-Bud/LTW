@@ -7,30 +7,158 @@
         <link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Yeon Sung|Sarabun">
 
         <script>
+
+            function enable_disable_computer_lvl(val){
+                const form = document.getElementById("1")
+                form.disabled = val;
+                const form1 = document.getElementById("2")
+                form1.disabled = val;
+                const form2 = document.getElementById("3")
+                form2.disabled = val;
+                const form3 = document.getElementById("4")
+                form3.disabled = val;
+                const form4 = document.getElementById("5")
+                form4.disabled = val;
+            }
+
+            function versus_player(){
+                const button = document.getElementById("vs_player")
+                button.style.background = '#ffffff';
+                const button3 = document.getElementById("vs_computer")
+                button3.style.background = '#ccccc9';
+                const button1 = document.getElementById("1player")
+                button1.disabled = true;
+                const button2 = document.getElementById("1computer")
+                button2.disabled = true;
+                enable_disable_computer_lvl(true);
+            }
+
+            function versus_computer(){
+                const button = document.getElementById("vs_computer")
+                button.style.background = '#ffffff';
+                const button3 = document.getElementById("vs_player")
+                button3.style.background = '#ccccc9';
+                const button1 = document.getElementById("1player")
+                button1.disabled = false;
+                const button2 = document.getElementById("1computer")
+                button2.disabled = false;
+                enable_disable_computer_lvl(false);
+            }
+            
+            function p1_player(){
+                const button = document.getElementById("1player")
+                button.style.background = '#ffffff';
+                const button3 = document.getElementById("1computer")
+                button3.style.background = '#ccccc9';
+            }
+
+            function p1_computer(){
+                const button = document.getElementById("1computer")
+                button.style.background = '#ffffff';
+                const button3 = document.getElementById("1player")
+                button3.style.background = '#ccccc9';
+            }
+
+            function giveUp(){
+                const button = document.getElementById("begin")
+                button.disabled = false;
+                const button_give_up = document.getElementById("give_up")
+                button_give_up.disabled = true;
+                const drop_down1 = document.getElementById("cavidades")
+                drop_down1.disabled = false;
+                const drop_down2 = document.getElementById("sementes")
+                drop_down2.disabled = false;
+                const button1 = document.getElementById("1player")
+                button1.disabled = false;
+                const button2 = document.getElementById("1computer")
+                button2.disabled = false;
+                enable_disable_computer_lvl(false);
+            }
+
             function getFormResult(id){
                 const element = document.getElementById(id);
                 return element.options[element.selectedIndex].value;
             }
 
-            function createBoard(){
-                const div1 = document.createElement("DIV");
-                    const div2 = document.createElement("DIV");
-                    for (let i = 0; i < getFormResult("cavidades"); i++){
-		                let spn = document.createElement("SPAN");
-                        let spn2 = document.createElement("SPAN");
-                        let t = document.createTextNode("&nbsp ");
-                        let t2 = document.createTextNode("&nbsp ");
-		                spn.appendChild(t);
-                        spn2.appendChild(t2);
-                        div1.appendChild(spn);
-                        div2.appendChild(spn2);
-                        }
-                    document.body.appendChild(div1);
-                    document.body.appendChild(div2);
+            function stylizeCells(elem){
+                elem.style.borderStyle = "solid";
+                elem.style.borderColor = "Black";
+                elem.style.borderWidth = "1px";
+
+                elem.style.display = "inline-block";
+                elem.style.height = "100%";
+                elem.style.verticalAlign = "middle";
             }
+
+            function removeCells(id){
+                let elem = document.getElementById(id);
+                for (let i = 0; i < 9; i++){
+                    if (elem != null){
+                        elem.remove();
+                    }
+                    elem = document.getElementById(id);
+                }
+            }
+
+            function insertCells(divElem, n, id){
+                for (let i = 0; i < n; i++){
+		            let spn = document.createElement("SPAN");
+                    spn.id = id;
+                    let p = document.createElement("P");
+                    let t = document.createTextNode("&nbsp ");
+		            p.appendChild(t);
+                    spn.appendChild(p);
+                    stylizeCells(spn);
+                    divElem.appendChild(spn);
+                }
+                return divElem;
+            }
+
+            function insertStorage(){
+                /**/
+            }
+
+            function createBoard(){
+                const board = document.createElement("DIV");
+                const div1 = document.createElement("DIV");
+                const div2 = document.createElement("DIV");
+                const div3 = document.createElement("DIV");
+                const div4 = document.createElement("DIV");
+
+                const cavityNumber = getFormResult("cavidades");
+                
+                board.id = "board";
+
+                removeCells("test");
+                removeCells("test2");
+
+                board.appendChild(insertCells(div2, cavityNumber, "test"));
+                board.appendChild(insertCells(div3, cavityNumber, "test2"));
+
+
+                document.body.appendChild(board);
+
+            }
+
+            function begin(){
+                const button = document.getElementById("begin")
+                button.disabled = true;
+                const button_give_up = document.getElementById("give_up")
+                button_give_up.disabled = false;
+                const drop_down1 = document.getElementById("cavidades")
+                drop_down1.disabled = true;
+                const drop_down2 = document.getElementById("sementes")
+                drop_down2.disabled = true;
+                enable_disable_computer_lvl(true);
+                const button1 = document.getElementById("1player")
+                button1.disabled = true;
+                const button2 = document.getElementById("1computer")
+                button2.disabled = true;
+            }
+
         </script>
     </head>
-    <body>
+    <body onload="createBoard(), giveUp()">
         <div class="pop_up">
             <div id="instructions">
                 <a href ="#"><button type="button">X</button></a>
@@ -142,21 +270,21 @@
             <div class="elem_settings center_elem">
                 Tipo de Jogo:
                 <div>
-                    <button type="button" class="left_button medium_button">Vs Jogador</button>
-                    <button type="button" class="right_button medium_button">Vs Computador</button>
+                    <button type="button" class="left_button medium_button" id = "vs_player" onclick="versus_player()">Vs Jogador</button>
+                    <button type="button" class="right_button medium_button" id = "vs_computer" onclick = "versus_computer()"> Vs Computador</button>
                 </div>
             </div>
             <div class="elem_settings center_elem">
                 1º Jogador:
                 <div>
-                    <button type="button" class="left_button medium_button">Jogador</button>
-                    <button type="button" class="right_button medium_button">Computador</button>
+                    <button type="button" class="left_button medium_button" id = "1player" onclick = "p1_player()">Jogador</button>
+                    <button type="button" class="right_button medium_button" id = "1computer" onclick = "p1_computer()">Computador</button>
                 </div>
             </div>
             <div class="elem_settings">
                 Nível do computador:
                 <div class="center_elem uper_border">
-                    <label class="radio_button_label">1</label>
+                    <label class="radio_button_label" id= "leel">1</label>
                     <label class="radio_button_label">2</label>
                     <label class="radio_button_label">3</label>
                     <label class="radio_button_label">4</label>
@@ -171,7 +299,7 @@
                 </form>
             </div>
             <div class="center_elem">
-                <button type="button" class="big_button">Começar</button>
+                <button type="button" class="big_button" id="begin" onclick="begin()">Começar</button>
             </div>
         </div>
         <div id="commands" class="border">
@@ -183,7 +311,7 @@
                     </div>
                     <div>
                         <label for="password">Password:</label>
-                        <input type="text" id="password" name="password" class ="input_auth"><br><br>
+                        <input type="password" id="password" name="password" class ="input_auth"><br><br>
                     </div>
                 </div>
                 <div class = "pop_ups">
@@ -193,66 +321,7 @@
             </div>
             <div class="game_controls">
                 <button type="button" class="auth_button game_buttons">Autenticar</button>
-                <button type="button" class="give_up_button game_buttons">Desistir</button>
-            </div>
-        </div>
-        <div id = "board">
-            <div id = "containers">
-                <div class = "container">
-                    &nbsp
-                </div>
-            </div>
-            <div id="cavities">
-
-                <div class="row"> 
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                        <div class="cavity">
-                            &nbsp
-                        </div>
-                    </div> 
-
-            </div>
-            <div id = "containers">
-                <div class = "container">
-                    &nbsp
-                </div>
-            </div>
-    </div>
+                <button type="button" class=" give_up_button game_buttons" id = "give_up" onclick="giveUp()">Desistir</button>
 
     </body>
 </html>
