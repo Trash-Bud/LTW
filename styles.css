@@ -23,14 +23,17 @@ h1{
     padding: 2%;
     float: left;
 }
-
-#commands{
-    width: 60%;
-    float: left;
+#right_container{
+    display: inline-block;
+    width: 61%;
 }
+#commands{
+    width: 100%;
+}
+
 #cavities{
 
-    width: 60%;
+    width: 61%;
     height: 100%;
     float: left;
     background-color: rgb(204, 201, 201);
@@ -47,6 +50,11 @@ h1{
     width: 10%;
     padding:0.5%;
 }
+
+#board{
+    text-align: center;
+}
+
 .row{
     margin: 1%;
     width: 100%;
@@ -73,6 +81,9 @@ h1{
 
 .border{
     border: 1px solid black
+}
+.border_bottom{
+    border-bottom: 1px solid black
 }
 .elem_settings{
     padding-bottom: 1em;
@@ -101,7 +112,7 @@ h1{
     width: 80%;
     font-size: 20px;
 }
-.uper_border{
+.upper_margin{
     margin: 2% 0% 0% 0%;
 }
 .auth{

@@ -73,6 +73,10 @@
                 const button2 = document.getElementById("1computer")
                 button2.disabled = false;
                 enable_disable_computer_lvl(false);
+                const button4 = document.getElementById("vs_computer")
+                button4.disabled = false;
+                const button5 = document.getElementById("vs_player")
+                button5.disabled = false;
             }
 
             function getFormResult(id){
@@ -80,63 +84,109 @@
                 return element.options[element.selectedIndex].value;
             }
 
-            function stylizeCells(elem){
+            function stylizeSeeds(elem){
+                elem.style.display = "inline-block";
+                elem.style.width = "20%";
+
+                elem.style.margin = "3%";
+                elem.style.color = "transparent"
+                elem.style.backgroundColor = "#bbb";
+                elem.style.borderRadius ="50%";
+            }
+
+            function stylizeCells(elem,n){
                 elem.style.borderStyle = "solid";
                 elem.style.borderColor = "Black";
                 elem.style.borderWidth = "1px";
+                elem.style.width = "5%";
 
                 elem.style.display = "inline-block";
                 elem.style.height = "100%";
+
                 elem.style.verticalAlign = "middle";
+
+                elem.style.padding = "1%";
             }
 
-            function removeCells(id){
-                let elem = document.getElementById(id);
-                for (let i = 0; i < 9; i++){
-                    if (elem != null){
-                        elem.remove();
-                    }
-                    elem = document.getElementById(id);
+            function stylizeRows(elem){
+                elem.style.width = "100%";
+                
+            }
+
+            function stylizeStorages(elem, position){
+                elem.style.border = "1px solid black";
+                elem.style.display = "inline-block";
+                elem.style.position = "relative";
+                elem.style.width = "10%";
+                elem.style.float = "left";
+                if (position === "left"){
+                    
+                } else {
+
                 }
             }
 
-            function insertCells(divElem, n, id){
+            function removeElements(id){
+                let elem = document.getElementById(id);
+                while(elem != null){
+                    elem.remove();
+                    elem = document.getElementById(id);
+                }
+            }
+            
+            function insertCells(divElem, n, seed_n, id){
                 for (let i = 0; i < n; i++){
 		            let spn = document.createElement("SPAN");
                     spn.id = id;
-                    let p = document.createElement("P");
-                    let t = document.createTextNode("&nbsp ");
-		            p.appendChild(t);
-                    spn.appendChild(p);
-                    stylizeCells(spn);
+                    for (let e = 0; e < seed_n; e++){
+                        let div = document.createElement("DIV");
+                        let t = document.createTextNode("S ");
+                        stylizeSeeds(div);
+                        div.appendChild(t);
+                        spn.appendChild(div);
+                    }
+                    stylizeCells(spn,n);
                     divElem.appendChild(spn);
+                    stylizeRows(divElem);
                 }
                 return divElem;
             }
 
-            function insertStorage(){
-                /**/
+            function insertStorage(id, position){
+                let divElem = document.createElement("DIV");
+                let spn = document.createElement("SPAN");
+                spn.id = id;
+                let t = document.createTextNode("&nbsp ");
+                spn.appendChild(t);
+                stylizeStorages(spn, position);
+                divElem.appendChild(spn);
+                return divElem;
             }
 
             function createBoard(){
-                const board = document.createElement("DIV");
-                const div1 = document.createElement("DIV");
-                const div2 = document.createElement("DIV");
-                const div3 = document.createElement("DIV");
-                const div4 = document.createElement("DIV");
+                const board = document.createElement("SPAN");
+                const elem1 = document.createElement("DIV");
+                const elem2 = document.createElement("DIV");
+                const elem3 = document.createElement("DIV");
 
                 const cavityNumber = getFormResult("cavidades");
+                const seedNumber = getFormResult("sementes");
                 
                 board.id = "board";
 
-                removeCells("test");
-                removeCells("test2");
+                removeElements("board");
 
-                board.appendChild(insertCells(div2, cavityNumber, "test"));
-                board.appendChild(insertCells(div3, cavityNumber, "test2"));
+                board.appendChild(insertStorage("player_1_storage", "left"));
 
+                elem1.appendChild(insertCells(elem2, cavityNumber,seedNumber, "player_1_cells"));
+                elem1.appendChild(insertCells(elem3, cavityNumber,seedNumber, "player_2_cells"));
+                elem1.style.width = "70%";
+                elem1.style.float = "left";
+                board.appendChild(elem1);
 
-                document.body.appendChild(board);
+                board.appendChild(insertStorage("player_2_storage", "right"));
+
+                document.getElementById("right_container").appendChild(board);
 
             }
 
@@ -154,6 +204,10 @@
                 button1.disabled = true;
                 const button2 = document.getElementById("1computer")
                 button2.disabled = true;
+                const button4 = document.getElementById("vs_computer")
+                button4.disabled = true;
+                const button5 = document.getElementById("vs_player")
+                button5.disabled = true;
             }
 
         </script>
@@ -243,10 +297,11 @@
                 <h1 class="center_elem">Highscores:</h1>
             </div>
         </div>
-        <div id="logo" class="border">
+        <div id="logo" class="border_bottom">
             <h1>Mancala</h1>
         </div>
-        <div id="settings" class="border">
+        <div id="conteudo">
+        <div id="settings" class="border_bottom">
             <div class="elem_settings">
                 Número de cavidades por lado:
                 <select id="cavidades" name="cavidades" size="1" onchange="createBoard()">
@@ -258,7 +313,7 @@
             </div>
             <div class="elem_settings">
                 Número de sementes por cavidade:
-                <select id="sementes" name="sementes" size="1">
+                <select id="sementes" name="sementes" size="1" onchange = "createBoard()">
                     <option value="4"> 4</option>
                     <option value="5"> 5</option>
                     <option value="6"> 6</option>
@@ -283,7 +338,7 @@
             </div>
             <div class="elem_settings">
                 Nível do computador:
-                <div class="center_elem uper_border">
+                <div class="center_elem upper_margin">
                     <label class="radio_button_label" id= "leel">1</label>
                     <label class="radio_button_label">2</label>
                     <label class="radio_button_label">3</label>
@@ -302,27 +357,30 @@
                 <button type="button" class="big_button" id="begin" onclick="begin()">Começar</button>
             </div>
         </div>
-        <div id="commands" class="border">
-            <div>
-                <div class="auth">
-                    <div>
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" name="nome" class ="input_auth"><br><br>
+        <div id="right_container">
+            <div id="commands" class="border_bottom">
+                <div>
+                    <div class="auth">
+                        <div>
+                            <label for="nome">Nome:</label>
+                            <input type="text" id="nome" name="nome" class ="input_auth"><br><br>
+                        </div>
+                        <div>
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" class ="input_auth"><br><br>
+                        </div>
                     </div>
-                    <div>
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" class ="input_auth"><br><br>
+                    <div class = "pop_ups">
+                        <a href="#instructions"><button type="button" class=" right_button pop_up_buttons">Instruções</button></a>
+                        <a href="#classificacao"><button type="button" class=" right_button pop_up_buttons">Classificações</button></a>
                     </div>
                 </div>
-                <div class = "pop_ups">
-                    <a href="#instructions"><button type="button" class=" right_button pop_up_buttons">Instruções</button></a>
-                    <a href="#classificacao"><button type="button" class=" right_button pop_up_buttons">Classificações</button></a>
+                <div class="game_controls">
+                    <button type="button" class="auth_button game_buttons">Autenticar</button>
+                    <button type="button" class=" give_up_button game_buttons" id = "give_up" onclick="giveUp()">Desistir</button>
                 </div>
             </div>
-            <div class="game_controls">
-                <button type="button" class="auth_button game_buttons">Autenticar</button>
-                <button type="button" class=" give_up_button game_buttons" id = "give_up" onclick="giveUp()">Desistir</button>
-
+        </div>
     </body>
 </html>
 
