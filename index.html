@@ -84,46 +84,21 @@
                 return element.options[element.selectedIndex].value;
             }
 
-            function stylizeSeeds(elem){
+            function stylizeSeeds(elem, seedNum){
+                let angle = Math.random()*360;
                 elem.style.display = "inline-block";
-                elem.style.width = "20%";
+                elem.style.transform = `rotate(${angle}deg)`; 
+                elem.style.width = "15%";
+                elem.style.boxSizing = "border-box";
 
-                elem.style.margin = "3%";
+                elem.style.margin = "8%";
                 elem.style.color = "transparent"
                 elem.style.backgroundColor = "#bbb";
                 elem.style.borderRadius ="50%";
             }
 
-            function stylizeCells(elem,n){
-                elem.style.borderStyle = "solid";
-                elem.style.borderColor = "Black";
-                elem.style.borderWidth = "1px";
-                elem.style.width = "5%";
-
-                elem.style.display = "inline-block";
-                elem.style.height = "100%";
-
-                elem.style.verticalAlign = "middle";
-
-                elem.style.padding = "1%";
-            }
-
-            function stylizeRows(elem){
-                elem.style.width = "100%";
-                
-            }
-
-            function stylizeStorages(elem, position){
-                elem.style.border = "1px solid black";
-                elem.style.display = "inline-block";
-                elem.style.position = "relative";
-                elem.style.width = "10%";
-                elem.style.float = "left";
-                if (position === "left"){
-                    
-                } else {
-
-                }
+            function stylizeBoard(board){
+                board.style.margin = "3% 15%";
             }
 
             function removeElements(id){
@@ -134,59 +109,51 @@
                 }
             }
             
-            function insertCells(divElem, n, seed_n, id){
-                for (let i = 0; i < n; i++){
-		            let spn = document.createElement("SPAN");
-                    spn.id = id;
-                    for (let e = 0; e < seed_n; e++){
-                        let div = document.createElement("DIV");
-                        let t = document.createTextNode("S ");
-                        stylizeSeeds(div);
-                        div.appendChild(t);
-                        spn.appendChild(div);
-                    }
-                    stylizeCells(spn,n);
-                    divElem.appendChild(spn);
-                    stylizeRows(divElem);
-                }
-                return divElem;
+            function stylizeCell(cell, wd){
+                cell.style.width = wd +"%";
+                cell.style.boxSizing = "border-box";
+                cell.style.border = "1px solid black";
             }
 
-            function insertStorage(id, position){
-                let divElem = document.createElement("DIV");
-                let spn = document.createElement("SPAN");
-                spn.id = id;
-                let t = document.createTextNode("&nbsp ");
-                spn.appendChild(t);
-                stylizeStorages(spn, position);
-                divElem.appendChild(spn);
-                return divElem;
+            function stylizeRow(row){
+                row.style.display = "flex";
+                row.style.justifyContent = "space-around";
+                row.style.boxSizing = "border-box";
+            }
+
+            function insertRow(board, cavityNum, seedNum){
+                let wd = 100/parseInt(cavityNum);
+                const row = document.createElement("DIV");
+                row.className = "flex-container";
+                stylizeRow(row);
+                for (let i = 0; i < cavityNum; i++){
+                    const cell = document.createElement("DIV");
+                    for (let j = 0; j < seedNum; j++){
+                        const seed = document.createElement("DIV");
+                        const t = document.createTextNode("S ");
+                        stylizeSeeds(seed);
+                        seed.appendChild(t);
+                        cell.appendChild(seed);
+                    }
+                    stylizeCell(cell,wd);
+                    row.appendChild(cell);
+                }
+                return row;
             }
 
             function createBoard(){
-                const board = document.createElement("SPAN");
-                const elem1 = document.createElement("DIV");
-                const elem2 = document.createElement("DIV");
-                const elem3 = document.createElement("DIV");
-
+                const board = document.createElement("DIV");
                 const cavityNumber = getFormResult("cavidades");
                 const seedNumber = getFormResult("sementes");
-                
+            
                 board.id = "board";
 
                 removeElements("board");
 
-                board.appendChild(insertStorage("player_1_storage", "left"));
-
-                elem1.appendChild(insertCells(elem2, cavityNumber,seedNumber, "player_1_cells"));
-                elem1.appendChild(insertCells(elem3, cavityNumber,seedNumber, "player_2_cells"));
-                elem1.style.width = "70%";
-                elem1.style.float = "left";
-                board.appendChild(elem1);
-
-                board.appendChild(insertStorage("player_2_storage", "right"));
-
+                board.appendChild(insertRow(board, cavityNumber, seedNumber));
+                board.appendChild(insertRow(board, cavityNumber, seedNumber));
                 document.getElementById("right_container").appendChild(board);
+                stylizeBoard(board);
 
             }
 
@@ -301,7 +268,7 @@
             <h1>Mancala</h1>
         </div>
         <div id="conteudo">
-        <div id="settings" class="border_bottom">
+        <div id="settings" class="border">
             <div class="elem_settings">
                 Número de cavidades por lado:
                 <select id="cavidades" name="cavidades" size="1" onchange="createBoard()">
@@ -358,7 +325,7 @@
             </div>
         </div>
         <div id="right_container">
-            <div id="commands" class="border_bottom">
+            <div id="commands" class="border">
                 <div>
                     <div class="auth">
                         <div>
