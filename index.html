@@ -84,48 +84,6 @@
                 return element.options[element.selectedIndex].value;
             }
 
-            function stylizeSeeds(elem){
-                elem.style.display = "inline-block";
-                elem.style.width = "20%";
-
-                elem.style.margin = "3%";
-                elem.style.color = "transparent"
-                elem.style.backgroundColor = "#bbb";
-                elem.style.borderRadius ="50%";
-            }
-
-            function stylizeCells(elem,n){
-                elem.style.borderStyle = "solid";
-                elem.style.borderColor = "Black";
-                elem.style.borderWidth = "1px";
-                elem.style.width = "5%";
-
-                elem.style.display = "inline-block";
-                elem.style.height = "100%";
-
-                elem.style.verticalAlign = "middle";
-
-                elem.style.padding = "1%";
-            }
-
-            function stylizeRows(elem){
-                elem.style.width = "100%";
-                
-            }
-
-            function stylizeStorages(elem, position){
-                elem.style.border = "1px solid black";
-                elem.style.display = "inline-block";
-                elem.style.position = "relative";
-                elem.style.width = "10%";
-                elem.style.float = "left";
-                if (position === "left"){
-                    
-                } else {
-
-                }
-            }
-
             function removeElements(id){
                 let elem = document.getElementById(id);
                 while(elem != null){
@@ -133,61 +91,68 @@
                     elem = document.getElementById(id);
                 }
             }
-            
-            function insertCells(divElem, n, seed_n, id){
-                for (let i = 0; i < n; i++){
-		            let spn = document.createElement("SPAN");
-                    spn.id = id;
-                    for (let e = 0; e < seed_n; e++){
-                        let div = document.createElement("DIV");
-                        let t = document.createTextNode("S ");
-                        stylizeSeeds(div);
-                        div.appendChild(t);
-                        spn.appendChild(div);
-                    }
-                    stylizeCells(spn,n);
-                    divElem.appendChild(spn);
-                    stylizeRows(divElem);
+
+            function insertSeeds(cell, seedNum){
+                for (let j = 0; j < seedNum; j++){
+                    const seed = document.createElement("DIV");
+                    seed.className = "seed";
+                    const t = document.createTextNode("S ");
+                    seed.appendChild(t);
+                    cell.appendChild(seed);
                 }
-                return divElem;
             }
 
-            function insertStorage(id, position){
-                let divElem = document.createElement("DIV");
-                let spn = document.createElement("SPAN");
-                spn.id = id;
-                let t = document.createTextNode("&nbsp ");
-                spn.appendChild(t);
-                stylizeStorages(spn, position);
-                divElem.appendChild(spn);
-                return divElem;
+            function insertCells(row, cavityNum, seedNum){
+                for (i = 0; i < cavityNum; i++){
+                    const cell = document.createElement("DIV");
+                    cell.classList.add("border", "cell");
+                    insertSeeds(cell, seedNum);
+                    row.appendChild(cell);
+                }
             }
 
             function createBoard(){
-                const board = document.createElement("SPAN");
-                const elem1 = document.createElement("DIV");
-                const elem2 = document.createElement("DIV");
-                const elem3 = document.createElement("DIV");
-
                 const cavityNumber = getFormResult("cavidades");
                 const seedNumber = getFormResult("sementes");
+
+                const container = document.createElement("SPAN");
+                const board = document.createElement("DIV");
+                const leftStorage = document.createElement("DIV");
+                const rightStorage = document.createElement("DIV");
+                const cells = document.createElement("DIV");
+                const topCells = document.createElement("DIV");
+                const bottomCells = document.createElement("DIV");
                 
+                container.id = "board-container";
                 board.id = "board";
 
-                removeElements("board");
+                leftStorage.id = "left-storage";
+                leftStorage.classList.add("border", "storage");
+                rightStorage.id = "right-storage";
+                rightStorage.classList.add("border", "storage");
 
-                board.appendChild(insertStorage("player_1_storage", "left"));
+                cells.id = "cells";
 
-                elem1.appendChild(insertCells(elem2, cavityNumber,seedNumber, "player_1_cells"));
-                elem1.appendChild(insertCells(elem3, cavityNumber,seedNumber, "player_2_cells"));
-                elem1.style.width = "70%";
-                elem1.style.float = "left";
-                board.appendChild(elem1);
+                topCells.id = "top-cells";
+                topCells.className = "cell-row";
+                bottomCells.id = "bottom-cells";
+                bottomCells.className = "cell-row";
 
-                board.appendChild(insertStorage("player_2_storage", "right"));
+                
 
-                document.getElementById("right_container").appendChild(board);
+                removeElements("board-container");
 
+                insertCells(topCells, cavityNumber, seedNumber);
+                insertCells(bottomCells, cavityNumber, seedNumber);
+
+                cells.appendChild(topCells);
+                cells.appendChild(bottomCells);
+
+                board.appendChild(leftStorage);
+                board.appendChild(cells);
+                board.appendChild(rightStorage);
+                container.appendChild(board);
+                document.getElementById("right-container").appendChild(container);
             }
 
             function begin(){
@@ -213,12 +178,12 @@
         </script>
     </head>
     <body onload="createBoard(), giveUp()">
-        <div class="pop_up">
+        <div class="pop-up">
             <div id="instructions">
                 <a href ="#"><button type="button">X</button></a>
 
-                <h1 class="center_elem">Regras:</h1>
-                <b class="rules_section">Tabuleiro</b>
+                <h1 class="center-elem">Regras:</h1>
+                <b class="rules-section">Tabuleiro</b>
                 <img src="tabuleiro1.png" alt="Tabuleiro de Mancala vazio">
                 <ul></ul>
                 <li>2 conjuntos de cavidades centrais alinhadas</li>
@@ -226,7 +191,7 @@
                 <li>Cada jogador controla as cavidades do seu lado …</li>
                 <li>… bem como o armazém que fica à sua direita</li>
                 <p></p>
-                <b class="rules_section">Peças</b>
+                <b class="rules-section">Peças</b>
                 <img src="pecas.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>As peças denominam-se sementes</li>
@@ -234,13 +199,13 @@
                 <li>Devem ser dispostas dentro das cavidades</li>
                 <li>Desafio extra: evitar uma disposição excessivamente regular</li>
                 <p></p>
-                <b class="rules_section">Início do jogo</b>
+                <b class="rules-section">Início do jogo</b>
                 <img src="inicio.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Os armazéns estão vazios (sem sementes)</li>
                 <li>As restantes cavidades têm o mesmo número de sementes</li>
                 <p></p>
-                <b class="rules_section">Forma de jogar</b>
+                <b class="rules-section">Forma de jogar</b>
                 <img src="inicio.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Jogadores semeiam as suas sementes alternadamente</li>
@@ -250,7 +215,7 @@
                     <dd>- ficar com algumas sementes do adversário</dd>
                 <li>Termina quando um dos jogadores fica sem sementes</li>
                 <p></p>
-                <b class="rules_section">Começar a semear</b>
+                <b class="rules-section">Começar a semear</b>
                 <img src="semear.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Escolher uma cavidade do seu lado (que não o armazém)</li>
@@ -258,7 +223,7 @@
                 <li>Colocar 1 semente nas N cavidade seguintes</li>
                 <li>A semeadura é feita no sentido anti-horário</li>
                 <p></p>
-                <b class="rules_section">Continuar a semear</b>
+                <b class="rules-section">Continuar a semear</b>
                 <img src="semear2.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Se a cavidade seguinte for o seu armazém, semear também</li>
@@ -266,12 +231,12 @@
                 <li>Se atingir o armazém do adversário, não semear</li>
                 <li>Mas depois continuar do seu lado, se ainda tiver sementes</li>
                 <p></p>
-                <b class="rules_section">Última semente em armazem</b>
+                <b class="rules-section">Última semente em armazem</b>
                 <img src="ultimo.png" alt="Peças de Mancala">
                 Volta a jogar se a <b>última</b> semente for semeada for no seu próprio <b>armazém</b>
                 <p>Semeando cavidade agora vazia, a última semente cai no armazém e volta a jogar</p>
                 <p></p>
-                <b class="rules_section">Última semente em cavidade vazia</b>
+                <b class="rules-section">Última semente em cavidade vazia</b>
                 <img src="ultima semente.png" alt="Peças de Mancala">
                 Se a <b>última</b> semente calhar numa <b>sua</b> cavidade <b>vazia</b>, transferir para o seu armazém as sementes
                 <ul></ul>
@@ -280,7 +245,7 @@
                 <p></p>
                 <i>Semeando a partir da 3ª cavidade a contar da esquerda acrescenta 6 + 1 sementes ao seu armazém</i>
                 <p></p>
-                <b class="rules_section">Terminar</b>
+                <b class="rules-section">Terminar</b>
                 <img src="terminar.png" alt="Peças de Mancala">
                 <ul></ul>
                 <li>Jogo termina quando um dos jogadores não pode jogar</li>
@@ -291,18 +256,18 @@
             </div>
             
         </div>
-        <div class="pop_up">
+        <div class="pop-up">
             <div id="classificacao">
                 <a href="#"><button type="button">X</button></a>
-                <h1 class="center_elem">Highscores:</h1>
+                <h1 class="center-elem">Highscores:</h1>
             </div>
         </div>
-        <div id="logo" class="border_bottom">
+        <div id="logo" class="border-bottom">
             <h1>Mancala</h1>
         </div>
         <div id="conteudo">
-        <div id="settings" class="border_bottom">
-            <div class="elem_settings">
+        <div id="settings" class="border-bottom">
+            <div class="elem-settings">
                 Número de cavidades por lado:
                 <select id="cavidades" name="cavidades" size="1" onchange="createBoard()">
                     <option value="6"> 6</option>
@@ -311,7 +276,7 @@
                     <option value="9"> 9</option>
                 </select>
             </div>
-            <div class="elem_settings">
+            <div class="elem-settings">
                 Número de sementes por cavidade:
                 <select id="sementes" name="sementes" size="1" onchange = "createBoard()">
                     <option value="4"> 4</option>
@@ -322,62 +287,62 @@
                     <option value="9"> 9</option>
                 </select>
             </div>
-            <div class="elem_settings center_elem">
+            <div class="elem-settings center-elem">
                 Tipo de Jogo:
                 <div>
-                    <button type="button" class="left_button medium_button" id = "vs_player" onclick="versus_player()">Vs Jogador</button>
-                    <button type="button" class="right_button medium_button" id = "vs_computer" onclick = "versus_computer()"> Vs Computador</button>
+                    <button type="button" class="left-button medium-button" id = "vs_player" onclick="versus_player()">Vs Jogador</button>
+                    <button type="button" class="right-button medium-button" id = "vs_computer" onclick = "versus_computer()"> Vs Computador</button>
                 </div>
             </div>
-            <div class="elem_settings center_elem">
+            <div class="elem-settings center-elem">
                 1º Jogador:
                 <div>
-                    <button type="button" class="left_button medium_button" id = "1player" onclick = "p1_player()">Jogador</button>
-                    <button type="button" class="right_button medium_button" id = "1computer" onclick = "p1_computer()">Computador</button>
+                    <button type="button" class="left-button medium-button" id = "1player" onclick = "p1_player()">Jogador</button>
+                    <button type="button" class="right-button medium-button" id = "1computer" onclick = "p1_computer()">Computador</button>
                 </div>
             </div>
-            <div class="elem_settings">
+            <div class="elem-settings">
                 Nível do computador:
-                <div class="center_elem upper_margin">
-                    <label class="radio_button_label" id= "leel">1</label>
-                    <label class="radio_button_label">2</label>
-                    <label class="radio_button_label">3</label>
-                    <label class="radio_button_label">4</label>
-                    <label class="radio_button_label">5</label>
+                <div class="center-elem upper-margin">
+                    <label class="radio-button-label" id= "leel">1</label>
+                    <label class="radio-button-label">2</label>
+                    <label class="radio-button-label">3</label>
+                    <label class="radio-button-label">4</label>
+                    <label class="radio-button-label">5</label>
                 </div>
-                <form class="center_elem">
-                    <input type="radio" id="1" name="radio_answer" value="1" class="radio_button"> 
-                    <input type="radio" id="2" name="radio_answer" value="2" class="radio_button"> 
-                    <input type="radio" id="3" name="radio_answer" value="3" class="radio_button"> 
-                    <input type="radio" id="4" name="radio_answer" value="4" class="radio_button"> 
-                    <input type="radio" id="5" name="radio_answer" value="5" class="radio_button"> 
+                <form class="center-elem">
+                    <input type="radio" id="1" name="radio-answer" value="1" class="radio-button"> 
+                    <input type="radio" id="2" name="radio-answer" value="2" class="radio-button"> 
+                    <input type="radio" id="3" name="radio-answer" value="3" class="radio-button"> 
+                    <input type="radio" id="4" name="radio-answer" value="4" class="radio-button"> 
+                    <input type="radio" id="5" name="radio-answer" value="5" class="radio-button"> 
                 </form>
             </div>
-            <div class="center_elem">
-                <button type="button" class="big_button" id="begin" onclick="begin()">Começar</button>
+            <div class="center-elem">
+                <button type="button" class="big-button" id="begin" onclick="begin()">Começar</button>
             </div>
         </div>
-        <div id="right_container">
-            <div id="commands" class="border_bottom">
+        <div id="right-container">
+            <div id="commands" class="border-bottom">
                 <div>
                     <div class="auth">
                         <div>
                             <label for="nome">Nome:</label>
-                            <input type="text" id="nome" name="nome" class ="input_auth"><br><br>
+                            <input type="text" id="nome" name="nome" class ="input-auth"><br><br>
                         </div>
                         <div>
                             <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" class ="input_auth"><br><br>
+                            <input type="password" id="password" name="password" class ="input-auth"><br><br>
                         </div>
                     </div>
-                    <div class = "pop_ups">
-                        <a href="#instructions"><button type="button" class=" right_button pop_up_buttons">Instruções</button></a>
-                        <a href="#classificacao"><button type="button" class=" right_button pop_up_buttons">Classificações</button></a>
+                    <div class = "pop-ups">
+                        <a href="#instructions"><button type="button" class=" right-button pop-up-buttons">Instruções</button></a>
+                        <a href="#classificacao"><button type="button" class=" right-button pop-up-buttons">Classificações</button></a>
                     </div>
                 </div>
-                <div class="game_controls">
-                    <button type="button" class="auth_button game_buttons">Autenticar</button>
-                    <button type="button" class=" give_up_button game_buttons" id = "give_up" onclick="giveUp()">Desistir</button>
+                <div class="game-controls">
+                    <button type="button" class="auth-button game-buttons">Autenticar</button>
+                    <button type="button" class=" give-up-button game-buttons" id = "give_up" onclick="giveUp()">Desistir</button>
                 </div>
             </div>
         </div>

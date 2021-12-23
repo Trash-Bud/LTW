@@ -23,10 +23,12 @@ h1{
     padding: 2%;
     float: left;
 }
-#right_container{
+
+#right-container{
     display: inline-block;
     width: 61%;
 }
+
 #commands{
     width: 100%;
 }
@@ -41,78 +43,88 @@ h1{
     margin-bottom: 0.5%;
 }
 
-#containers{
-    background-color: rgb(204, 201, 201);
-    margin-top: 0.5%;
-    margin-bottom: 0.5%;
-    height: 97%;
-    float: left;
-    width: 10%;
-    padding:0.5%;
+/*-------------------------------------------------------------- board styles --------------------------------------------------------------*/
+
+#board-container{
+    display: flex;
 }
 
 #board{
     text-align: center;
+    height: 10em;
+    display: flex;
+    padding: 1em;
+    margin: auto;
 }
 
-.row{
-    margin: 1%;
-    width: 100%;
+.storage{
+    height: 100%;
+    width: 4em;
+}
+
+#cells{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.cell-row{
+    display: flex;
     height: 50%;
-    text-align: center;
+    justify-content: space-between;
 }
 
-.container{
-    width: 90%;
-    height: 90%;
-    margin: 1%;
-    float: left;
-    background-color: rgb(255, 255, 255);
-    float:left;
+.cell {
+    flex-grow: 1;
+    width: 3em;
+    height: 100%;
 }
 
-.cavity{
-    width: 14%;
-    height: 70%;
-    margin: 1%;
-    float: left;
-    background-color: rgb(255, 255, 255);
+.seed{
+    display: inline-block;
+    width: 20%;
+    margin: 3%;
+    color: transparent;
+    background-color: gray;
+    border-radius: 50%;
 }
+
+/*------------------------------------------------------------------------------------------------------------------------------------------*/
 
 .border{
     border: 1px solid black
 }
-.border_bottom{
+.border-bottom{
     border-bottom: 1px solid black
 }
-.elem_settings{
+.elem-settings{
     padding-bottom: 1em;
 }
-.center_elem{
+.center-elem{
     text-align: center;
     margin-bottom: 3%;
 }
-.left_button{
+.left-button{
     margin: 1em 1em 0 0;
 }
-.right_button{
+.right-button{
     margin: 1em 0 0 1em;
 }
-.radio_button{
+.radio-button{
     margin: 0em 0.5em 0em 0.5em;
 }
-.radio_button_label{
+.radio-button-label{
     margin: 0em 0.5em 0em 0.5em;
 }
-.medium_button{
+.medium-button{
     width: 40%;
     font-size: 20px;
 }
-.big_button{
+.big-button{
     width: 80%;
     font-size: 20px;
 }
-.upper_margin{
+.upper-margin{
     margin: 2% 0% 0% 0%;
 }
 .auth{
@@ -125,42 +137,42 @@ h1{
     margin-top: 2.5%;
     margin-left: 3%;
 }
-.input_auth{
+.input-auth{
     height: 2%;
     width: 70%;
     float: right;
 }
-.pop_ups{
+.pop-ups{
     margin-top: 2.5%;
     float:left;
     width:30%;
 }
-.pop_up_buttons{
+.pop-up-buttons{
     width: 90%;
     font-size: 20px;
 }
 
-.game_controls{
+.game-controls{
     width: 100%;
     margin: 2% 0%;
     display: inline-block;
 
 }
-.game_buttons{
+.game-buttons{
     width: 40%;
     font-size: 20px;
     
 }
-.give_up_button{
+.give-up-button{
     float:right;
     margin-right:3.5%;
 }
-.auth_button{
+.auth-button{
     float:left;
     margin-left:3%;
 }
 
-.pop_up div {
+.pop-up div {
     display: none;
     position:fixed;
     background-color: rgb(204, 201, 201);
@@ -172,10 +184,10 @@ h1{
     padding: 1%;
 }
   
-.pop_up div:target {
+.pop-up div:target {
     display: block;
 }
-.rules_section{
+.rules-section{
     font-size: 30px;
 }
 
