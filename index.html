@@ -92,43 +92,41 @@
                 <h1 class="center-elem">Highscores:</h1>
             </div>
         </div>
-        <div id="logo" class="border-bottom">
+        <div id="logo">
             <h1>Mancala</h1>
         </div>
         <div id="conteudo">
-        <div id="settings" class="border-bottom">
+        <div id="settings">
             <div class="elem-settings">
                 Número de cavidades por lado:
                 <select id="cavidades" name="cavidades" size="1" onchange="createBoard()">
+                    <option value="3"> 3</option>
+                    <option value="4"> 4</option>
+                    <option value="5"> 5</option>
                     <option value="6"> 6</option>
-                    <option value="7"> 7</option>
-                    <option value="8"> 8</option>
-                    <option value="9"> 9</option>
                 </select>
             </div>
             <div class="elem-settings">
                 Número de sementes por cavidade:
                 <select id="sementes" name="sementes" size="1" onchange = "createBoard()">
+                    <option value="3"> 3</option>
                     <option value="4"> 4</option>
                     <option value="5"> 5</option>
                     <option value="6"> 6</option>
-                    <option value="7"> 7</option>
-                    <option value="8"> 8</option>
-                    <option value="9"> 9</option>
                 </select>
             </div>
             <div class="elem-settings center-elem">
                 Tipo de Jogo:
                 <div>
-                    <button type="button" class="left-button medium-button" id = "vs-player" onclick="versus_player()">Vs Jogador</button>
-                    <button type="button" class="right-button medium-button" id = "vs-computer" onclick = "versus_computer()"> Vs Computador</button>
+                    <button type="button" class="left-button medium-button" id = "vs-player" onclick="versusPlayer()">Vs Jogador</button>
+                    <button type="button" class="right-button medium-button" id = "vs-computer" onclick = "versusComputer()"> Vs Computador</button>
                 </div>
             </div>
             <div class="elem-settings center-elem">
                 1º Jogador:
                 <div>
-                    <button type="button" class="left-button medium-button" id = "player-1" onclick = "p1_player()">Jogador</button>
-                    <button type="button" class="right-button medium-button" id = "computer-1" onclick = "p1_computer()">Computador</button>
+                    <button type="button" class="left-button medium-button" id = "player-1" onclick = "p1Player()">Jogador</button>
+                    <button type="button" class="right-button medium-button" id = "computer-1" onclick = "p1Computer()">Computador</button>
                 </div>
             </div>
             <div class="elem-settings">
@@ -153,7 +151,7 @@
             </div>
         </div>
         <div id="right-container">
-            <div id="commands" class="border-bottom">
+            <div id="commands">
                 <div>
                     <div class="auth">
                         <div>
@@ -172,7 +170,7 @@
                 </div>
                 <div class="game-controls">
                     <button type="button" class="auth-button game-buttons">Autenticar</button>
-                    <button type="button" class=" give-up-button game-buttons" id = "give_up" onclick="giveUp()">Desistir</button>
+                    <button type="button" class=" give-up-button game-buttons" id = "give-up" onclick="giveUp()">Desistir</button>
                 </div>
             </div>
         </div>

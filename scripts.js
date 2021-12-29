@@ -1,4 +1,4 @@
-function enable_disable_computer_lvl(val){
+function enableDisableComputerLvl(val){
     const form = document.getElementById("1");
     form.disabled = val;
     const form1 = document.getElementById("2");
@@ -11,7 +11,7 @@ function enable_disable_computer_lvl(val){
     form4.disabled = val;
 }
 
-function versus_player(){
+function versusPlayer(){
     const button = document.getElementById("vs-player");
     button.style.background = '#ffffff';
     const button3 = document.getElementById("vs-computer");
@@ -20,10 +20,10 @@ function versus_player(){
     button1.disabled = true;
     const button2 = document.getElementById("computer-1");
     button2.disabled = true;
-    enable_disable_computer_lvl(true);
+    enableDisableComputerLvl(true);
 }
 
-function versus_computer(){
+function versusComputer(){
     const button = document.getElementById("vs-computer");
     button.style.background = '#ffffff';
     const button3 = document.getElementById("vs-player");
@@ -32,17 +32,17 @@ function versus_computer(){
     button1.disabled = false;
     const button2 = document.getElementById("computer-1");
     button2.disabled = false;
-    enable_disable_computer_lvl(false);
+    enableDisableComputerLvl(false);
 }
 
-function p1_player(){
+function p1Player(){
     const button = document.getElementById("player-1");
     button.style.background = '#ffffff';
     const button3 = document.getElementById("computer-1");
     button3.style.background = '#ccccc9';
 }
 
-function p1_computer(){
+function p1Computer(){
     const button = document.getElementById("computer-1")
     button.style.background = '#ffffff';
     const button3 = document.getElementById("player-1")
@@ -52,17 +52,17 @@ function p1_computer(){
 function giveUp(){
     const button = document.getElementById("begin")
     button.disabled = false;
-    const button_give_up = document.getElementById("give_up")
-    button_give_up.disabled = true;
-    const drop_down1 = document.getElementById("cavidades")
-    drop_down1.disabled = false;
-    const drop_down2 = document.getElementById("sementes")
-    drop_down2.disabled = false;
+    const buttonGiveUp = document.getElementById("give-up")
+    buttonGiveUp.disabled = true;
+    const dropDown1 = document.getElementById("cavidades")
+    dropDown1.disabled = false;
+    const dropDown2 = document.getElementById("sementes")
+    dropDown2.disabled = false;
     const button1 = document.getElementById("player-1")
     button1.disabled = false;
     const button2 = document.getElementById("computer-1")
     button2.disabled = false;
-    enable_disable_computer_lvl(false);
+    enableDisableComputerLvl(false);
     const button4 = document.getElementById("vs-computer")
     button4.disabled = false;
     const button5 = document.getElementById("vs-player")
@@ -72,13 +72,13 @@ function giveUp(){
 function begin(){
     const button = document.getElementById("begin")
     button.disabled = true;
-    const button_give_up = document.getElementById("give_up")
-    button_give_up.disabled = false;
-    const drop_down1 = document.getElementById("cavidades")
-    drop_down1.disabled = true;
-    const drop_down2 = document.getElementById("sementes")
-    drop_down2.disabled = true;
-    enable_disable_computer_lvl(true);
+    const buttonGiveUp = document.getElementById("give-up")
+    buttonGiveUp.disabled = false;
+    const dropDown1 = document.getElementById("cavidades")
+    dropDown1.disabled = true;
+    const dropDown2 = document.getElementById("sementes")
+    dropDown2.disabled = true;
+    enableDisableComputerLvl(true);
     const button1 = document.getElementById("player-1")
     button1.disabled = true;
     const button2 = document.getElementById("computer-1")
@@ -87,6 +87,10 @@ function begin(){
     button4.disabled = true;
     const button5 = document.getElementById("vs-player")
     button5.disabled = true;
+    
+    var board = document.getElementById("board-container");
+    console.log(board);
+    board.style.display = "flex";
 }
 
 function getFormResult(id){
@@ -118,30 +122,71 @@ function insertSeeds(cell, seedNum){
     }
 }
 
-function insertCells(row, cavityNum, seedNum){
+function sow(cells, cell, cavityNum){
+    let totalSeeds = cell.childNodes.length;
+    let currSeeds = 0;
+    let currPlayer = 1;
+    let cellIndex = Number(cell.id[3]);
+    const initialIndex = Number(cell.id[3]);
+    for (n = 0; n < totalSeeds; n++){
+        cell.removeChild(cell.childNodes[0]);
+        currSeeds++;
+    }
+    for (n = 1; n <= currSeeds; n++){
+        cellIndex++;
+        if (cellIndex >= cavityNum){
+            if (currPlayer == 1) currPlayer = 2;
+            else currPlayer = 1;
+            cellIndex = 0;
+        }
+        nCell = document.getElementById("p" + currPlayer + "-" + cellIndex);
+        insertSeeds(nCell, 1);
+    }
+}
+
+function insertCells(cells, cavityNum, seedNum){
+    const topCells = document.createElement("DIV");
+    const bottomCells = document.createElement("DIV");
+
+    topCells.id = "top-cells";
+    topCells.className = "cell-row";
+    bottomCells.id = "bottom-cells";
+    bottomCells.className = "cell-row";
+
     for (i = 0; i < cavityNum; i++){
         const cell = document.createElement("DIV");
+        cell.id = "p2-" + (cavityNum - 1 - i);
         cell.classList.add("border", "cell");
         insertSeeds(cell, seedNum);
-        if (row.id == "bottom-cells") {
-            console.log(cell.id);
-            // cell.onclick = 
-        }
-        row.appendChild(cell);
+        topCells.appendChild(cell);
     }
+    cells.appendChild(topCells);
+
+    for (i = 0; i < cavityNum; i++){
+        const cell = document.createElement("DIV");
+        cell.id = "p1-" + i;
+        cell.classList.add("border", "cell");
+        insertSeeds(cell, seedNum);
+        cell.addEventListener("click", 
+        function(){
+            sow(cells, cell, cavityNum); 
+        });
+        bottomCells.appendChild(cell);
+    }
+    cells.appendChild(bottomCells);
 }
 
 function createBoard(){
     const cavityNumber = getFormResult("cavidades");
+    console.log(cavityNumber);
     const seedNumber = getFormResult("sementes");
+    console.log(seedNumber);
 
     const container = document.createElement("SPAN");
     const board = document.createElement("DIV");
     const player2Storage = document.createElement("DIV");
     const player1Storage = document.createElement("DIV");
     const cells = document.createElement("DIV");
-    const topCells = document.createElement("DIV");
-    const bottomCells = document.createElement("DIV");
     
     container.id = "board-container";
     board.id = "board";
@@ -153,21 +198,11 @@ function createBoard(){
     player1Storage.classList.add("border", "storage");
 
     cells.id = "cells";
-
-    topCells.id = "top-cells";
-    topCells.className = "cell-row";
-    bottomCells.id = "bottom-cells";
-    bottomCells.className = "cell-row";
-
     
 
     removeElements("board-container");
 
-    insertCells(topCells, cavityNumber, seedNumber);
-    insertCells(bottomCells, cavityNumber, seedNumber);
-
-    cells.appendChild(topCells);
-    cells.appendChild(bottomCells);
+    insertCells(cells, cavityNumber, seedNumber);
 
     board.appendChild(player2Storage);
     board.appendChild(cells);
