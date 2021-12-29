@@ -49,17 +49,6 @@ h1{
     border-width: 0 0 1px 0;
 }
 
-#cavities{
-
-    width: 65%;
-    height: 100%;
-    float: left;
-    background-color: rgb(204, 201, 201);
-    margin-top: 0.5%;
-    margin-bottom: 0.5%;
-    box-sizing: border-box;
-}
-
 /*-------------------------------------------------------------- board styles --------------------------------------------------------------*/
 
 #board-container{
@@ -68,7 +57,7 @@ h1{
 
 #board{
     text-align: center;
-    height: 10em;
+    height: auto;
     display: flex;
     padding: 1em;
     margin: 1em auto;
@@ -79,7 +68,7 @@ h1{
 }
 
 .storage{
-    height: 99%;
+    height: auto;
     width: 4em;
 }
 
@@ -98,12 +87,12 @@ h1{
 #cells{
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
 }
 
 .cell-row{
     display: flex;
-    height: 50%;
+    height: auto;
     justify-content: space-between;
 }
 
@@ -111,7 +100,7 @@ h1{
     flex-grow: 1;
     width: 3em;
     height: 100%;
-
+    min-height: 1.5em;
     border-style: solid;
     border-color: black;
     border-width: 1px 0 0 1px;
