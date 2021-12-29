@@ -5,183 +5,7 @@
         <title>Mancala</title> 
         <link rel = "stylesheet" href="styles.css">
         <link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Yeon Sung|Sarabun">
-
-        <script>
-
-            function enable_disable_computer_lvl(val){
-                const form = document.getElementById("1")
-                form.disabled = val;
-                const form1 = document.getElementById("2")
-                form1.disabled = val;
-                const form2 = document.getElementById("3")
-                form2.disabled = val;
-                const form3 = document.getElementById("4")
-                form3.disabled = val;
-                const form4 = document.getElementById("5")
-                form4.disabled = val;
-            }
-
-            function versus_player(){
-                const button = document.getElementById("vs_player")
-                button.style.background = '#ffffff';
-                const button3 = document.getElementById("vs_computer")
-                button3.style.background = '#ccccc9';
-                const button1 = document.getElementById("1player")
-                button1.disabled = true;
-                const button2 = document.getElementById("1computer")
-                button2.disabled = true;
-                enable_disable_computer_lvl(true);
-            }
-
-            function versus_computer(){
-                const button = document.getElementById("vs_computer")
-                button.style.background = '#ffffff';
-                const button3 = document.getElementById("vs_player")
-                button3.style.background = '#ccccc9';
-                const button1 = document.getElementById("1player")
-                button1.disabled = false;
-                const button2 = document.getElementById("1computer")
-                button2.disabled = false;
-                enable_disable_computer_lvl(false);
-            }
-            
-            function p1_player(){
-                const button = document.getElementById("1player")
-                button.style.background = '#ffffff';
-                const button3 = document.getElementById("1computer")
-                button3.style.background = '#ccccc9';
-            }
-
-            function p1_computer(){
-                const button = document.getElementById("1computer")
-                button.style.background = '#ffffff';
-                const button3 = document.getElementById("1player")
-                button3.style.background = '#ccccc9';
-            }
-
-            function giveUp(){
-                const button = document.getElementById("begin")
-                button.disabled = false;
-                const button_give_up = document.getElementById("give_up")
-                button_give_up.disabled = true;
-                const drop_down1 = document.getElementById("cavidades")
-                drop_down1.disabled = false;
-                const drop_down2 = document.getElementById("sementes")
-                drop_down2.disabled = false;
-                const button1 = document.getElementById("1player")
-                button1.disabled = false;
-                const button2 = document.getElementById("1computer")
-                button2.disabled = false;
-                enable_disable_computer_lvl(false);
-                const button4 = document.getElementById("vs_computer")
-                button4.disabled = false;
-                const button5 = document.getElementById("vs_player")
-                button5.disabled = false;
-            }
-
-            function begin(){
-                const button = document.getElementById("begin")
-                button.disabled = true;
-                const button_give_up = document.getElementById("give_up")
-                button_give_up.disabled = false;
-                const drop_down1 = document.getElementById("cavidades")
-                drop_down1.disabled = true;
-                const drop_down2 = document.getElementById("sementes")
-                drop_down2.disabled = true;
-                enable_disable_computer_lvl(true);
-                const button1 = document.getElementById("1player")
-                button1.disabled = true;
-                const button2 = document.getElementById("1computer")
-                button2.disabled = true;
-                const button4 = document.getElementById("vs_computer")
-                button4.disabled = true;
-                const button5 = document.getElementById("vs_player")
-                button5.disabled = true;
-            }
-
-            function getFormResult(id){
-                const element = document.getElementById(id);
-                return element.options[element.selectedIndex].value;
-            }
-
-            function removeElements(id){
-                let elem = document.getElementById(id);
-                while(elem != null){
-                    elem.remove();
-                    elem = document.getElementById(id);
-                }
-            }
-
-            function stylizeSeed(seed){
-                let angle = Math.random()*360;
-                seed.style.transform = `rotate(${angle}deg)`; 
-            }
-
-            function insertSeeds(cell, seedNum){
-                for (let j = 0; j < seedNum; j++){
-                    const seed = document.createElement("DIV");
-                    seed.className = "seed";
-                    const t = document.createTextNode("S ");
-                    seed.appendChild(t);
-                    stylizeSeed(seed);
-                    cell.appendChild(seed);
-                }
-            }
-
-            function insertCells(row, cavityNum, seedNum){
-                for (i = 0; i < cavityNum; i++){
-                    const cell = document.createElement("DIV");
-                    cell.classList.add("border", "cell");
-                    insertSeeds(cell, seedNum);
-                    row.appendChild(cell);
-                }
-            }
-
-            function createBoard(){
-                const cavityNumber = getFormResult("cavidades");
-                const seedNumber = getFormResult("sementes");
-
-                const container = document.createElement("SPAN");
-                const board = document.createElement("DIV");
-                const leftStorage = document.createElement("DIV");
-                const rightStorage = document.createElement("DIV");
-                const cells = document.createElement("DIV");
-                const topCells = document.createElement("DIV");
-                const bottomCells = document.createElement("DIV");
-                
-                container.id = "board-container";
-                board.id = "board";
-
-                leftStorage.id = "left-storage";
-                leftStorage.classList.add("border", "storage");
-                rightStorage.id = "right-storage";
-                rightStorage.classList.add("border", "storage");
-
-                cells.id = "cells";
-
-                topCells.id = "top-cells";
-                topCells.className = "cell-row";
-                bottomCells.id = "bottom-cells";
-                bottomCells.className = "cell-row";
-
-                
-
-                removeElements("board-container");
-
-                insertCells(topCells, cavityNumber, seedNumber);
-                insertCells(bottomCells, cavityNumber, seedNumber);
-
-                cells.appendChild(topCells);
-                cells.appendChild(bottomCells);
-
-                board.appendChild(leftStorage);
-                board.appendChild(cells);
-                board.appendChild(rightStorage);
-                container.appendChild(board);
-                document.getElementById("right-container").appendChild(container);
-            }
-
-        </script>
+        <script src="scripts.js"></script>
     </head>
     <body onload="createBoard(), giveUp()">
         <div class="pop-up">
@@ -296,15 +120,15 @@
             <div class="elem-settings center-elem">
                 Tipo de Jogo:
                 <div>
-                    <button type="button" class="left-button medium-button" id = "vs_player" onclick="versus_player()">Vs Jogador</button>
-                    <button type="button" class="right-button medium-button" id = "vs_computer" onclick = "versus_computer()"> Vs Computador</button>
+                    <button type="button" class="left-button medium-button" id = "vs-player" onclick="versus_player()">Vs Jogador</button>
+                    <button type="button" class="right-button medium-button" id = "vs-computer" onclick = "versus_computer()"> Vs Computador</button>
                 </div>
             </div>
             <div class="elem-settings center-elem">
                 1º Jogador:
                 <div>
-                    <button type="button" class="left-button medium-button" id = "1player" onclick = "p1_player()">Jogador</button>
-                    <button type="button" class="right-button medium-button" id = "1computer" onclick = "p1_computer()">Computador</button>
+                    <button type="button" class="left-button medium-button" id = "player-1" onclick = "p1_player()">Jogador</button>
+                    <button type="button" class="right-button medium-button" id = "computer-1" onclick = "p1_computer()">Computador</button>
                 </div>
             </div>
             <div class="elem-settings">
@@ -329,7 +153,7 @@
             </div>
         </div>
         <div id="right-container">
-            <div id="commands" class="border">
+            <div id="commands" class="border-bottom">
                 <div>
                     <div class="auth">
                         <div>
