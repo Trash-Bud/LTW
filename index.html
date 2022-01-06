@@ -8,7 +8,7 @@
         <script src="scripts.js"></script>
         <script src="classes.js"></script>
     </head>
-    <body onload="viewBoard(), giveUp()">
+    <body onload="drawInitialBoard(), giveUp()">
         <div class="pop-up">
             <div id="instructions">
                 <a href ="#"><button type="button">X</button></a>
@@ -100,7 +100,7 @@
         <div id="settings">
             <div class="elem-settings">
                 Número de cavidades por lado:
-                <select id="cavidades" name="cavidades" size="1" onchange="viewBoard()">
+                <select id="cavidades" name="cavidades" size="1" onchange="drawInitialBoard()">
                     <option value="3"> 3</option>
                     <option value="4"> 4</option>
                     <option value="5"> 5</option>
@@ -109,7 +109,7 @@
             </div>
             <div class="elem-settings">
                 Número de sementes por cavidade:
-                <select id="sementes" name="sementes" size="1" onchange = "viewBoard()">
+                <select id="sementes" name="sementes" size="1" onchange = "drawInitialBoard()">
                     <option value="3"> 3</option>
                     <option value="4"> 4</option>
                     <option value="5"> 5</option>

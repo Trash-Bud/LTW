@@ -114,11 +114,9 @@ h1{
 
 .seed{
     display: inline-block;
-    transform: rotate(5deg);
-    width: 20%;
+    width: 27%;
     margin: 3%;
     color: transparent;
-    background-color: gray;
     border-radius: 50%;
 }
 
