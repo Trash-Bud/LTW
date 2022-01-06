@@ -171,6 +171,7 @@ h1{
     float: right;
 }
 .pop-ups{
+    z-index: 1;
     margin-top: 2.5%;
     float:left;
     width:30%;
