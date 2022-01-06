@@ -105,6 +105,10 @@ h1{
     border-color: black;
     border-width: 1px 0 0 1px;
 }
+#top-cells, #bottom-cells{
+    min-height: 50%;
+    height: auto;
+}
 
 #bottom-cells{
     border-style: solid;
@@ -115,7 +119,6 @@ h1{
 .seed{
     display: inline-block;
     width: 27%;
-    margin: 3%;
     color: transparent;
     border-radius: 50%;
 }

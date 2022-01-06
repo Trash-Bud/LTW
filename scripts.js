@@ -1,3 +1,5 @@
+var player = 1;
+
 function enableDisableComputerLvl(val){
     const form = document.getElementById("1");
     form.disabled = val;
@@ -67,6 +69,9 @@ function giveUp(){
     button4.disabled = false;
     const button5 = document.getElementById("vs-player")
     button5.disabled = false;
+
+    removeElementsById("board-container");
+    
 }
 
 function begin(){
@@ -88,8 +93,7 @@ function begin(){
     const button5 = document.getElementById("vs-player")
     button5.disabled = true;
     
-    var board = document.getElementById("board-container");
-    board.style.display = "flex";
+    drawInitialBoard();
 }
 
 function getFormResult(id){
@@ -128,22 +132,28 @@ function insertSeeds(cell, seedNum){
     }
 }
 
-function checkWinner(){
-    const player1StorageSeeds = document.getElementById("p1-storage").childNodes.length
-    const player2StorageSeeds = document.getElementById("p2-storage").childNodes.length;
+function announceWinner(winner){
     const finalMessage = document.createElement("DIV");
+    let finalMessageText;
     const container = document.getElementById("right-container");
-    let winner;
 
     finalMessage.id = "final-message";
 
     removeElementsById(finalMessage.id);
 
-    if (player1StorageSeeds > player2StorageSeeds) winner = document.createTextNode("player 1 wins");
-    else if (player1StorageSeeds < player2StorageSeeds) winner = document.createTextNode("player 2 wins");
-    else winner = document.createTextNode("it's a tie");
+    switch (winner){
+        case 1:
+            finalMessageText = document.createTextNode("player 1 wins");
+            break;
+        case 2:
+            finalMessageText = document.createTextNode("player 2 wins");
+            break;
+        default:
+            finalMessageText = document.createTextNode("it's a tie");
+            break;
+    }
 
-    finalMessage.appendChild(winner);
+    finalMessage.appendChild(finalMessageText);
     container.appendChild(finalMessage);
 }
 
@@ -163,17 +173,6 @@ function gameOver(topCells, bottomCells){
     }
 
     checkWinner();
-}
-
-function checkGameOver(topCells, bottomCells){
-    let gameOverTopCells = true, gameOverBottomCells = true;
-    for(cell = topCells.firstChild; cell !== null; cell = cell.nextSibling){
-        if (cell.childNodes.length != 0) gameOverTopCells = false;
-    }
-    for(cell = bottomCells.firstChild; cell !== null; cell = cell.nextSibling){
-        if (cell.childNodes.length != 0) gameOverBottomCells = false;
-    }
-    return gameOverTopCells || gameOverBottomCells;
 }
 
 function insertStorage(board, storage){
@@ -207,9 +206,10 @@ function insertCells(board, cells){
 
         insertSeeds(cellElem, seedNum);
 
-        if (seedNum > 0) cellElem.addEventListener("click", 
+        if (seedNum > 0 && player == 2) cellElem.addEventListener("click", 
         function(){
-            sow(board, cavityNum - p2Index - 1, 2);
+            sow(board, cavityNum - p2Index - 1, player);
+            board.check_game_over();
         });
         topCells.appendChild(cellElem);
     }
@@ -225,9 +225,10 @@ function insertCells(board, cells){
 
         insertSeeds(cellElem, seedNum);
 
-        if (seedNum > 0) cellElem.addEventListener("click", 
+        if (seedNum > 0 && player == 1) cellElem.addEventListener("click", 
         function(){
-            sow(board, p1Index, 1);
+            sow(board, p1Index, player);
+            board.check_game_over();
         });
         bottomCells.appendChild(cellElem);
     }
@@ -235,39 +236,6 @@ function insertCells(board, cells){
 }
 
 function drawBoard(board){
-    const container = document.getElementById("board-container");
-    const boardElem = document.createElement("DIV");
-    const player2Storage = document.createElement("DIV");
-    const player1Storage = document.createElement("DIV");
-    const cells = document.createElement("DIV");
-    
-    boardElem.id = "board";
-
-    player2Storage.id = "p2-storage";
-    player2Storage.className = "storage";
-    player1Storage.id = "p1-storage";
-    player1Storage.className = "storage";
-
-    cells.id = "cells";
-
-    removeElementsById("board");
-
-    insertStorage(board, player2Storage);
-    insertCells(board, cells);
-    insertStorage(board, player1Storage);
-
-    boardElem.appendChild(player2Storage);
-    boardElem.appendChild(cells);
-    boardElem.appendChild(player1Storage);
-    container.appendChild(boardElem);
-}
-
-function drawInitialBoard(){
-    const cavityNumber = getFormResult("cavidades");
-    const seedNumber = getFormResult("sementes");
-
-    let board = create_board(cavityNumber, seedNumber);
-
     const container = document.createElement("SPAN");
     const boardElem = document.createElement("DIV");
     const player2Storage = document.createElement("DIV");
@@ -286,11 +254,26 @@ function drawInitialBoard(){
 
     removeElementsById("board-container");
 
+    insertStorage(board, player2Storage);
     insertCells(board, cells);
+    insertStorage(board, player1Storage);
 
     boardElem.appendChild(player2Storage);
     boardElem.appendChild(cells);
     boardElem.appendChild(player1Storage);
     container.appendChild(boardElem);
     document.getElementById("right-container").appendChild(container);
+
+    var board = document.getElementById("board-container");
+    board.style.display = "flex";
+    
+}
+
+function drawInitialBoard(){
+    let cavityNum = getFormResult("cavidades");
+    let seedNum = getFormResult("sementes");
+
+    let board = create_board(cavityNum, seedNum);
+
+    drawBoard(board);
 }

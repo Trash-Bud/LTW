@@ -44,6 +44,9 @@ class Row {
     get_storage(){
         return this.cells[this.cells.length - 1];
     }
+    get_length(){
+        return this.cells.length - 1;
+    }
 
     set_cells(cells){
         this.cells = cells;
@@ -59,6 +62,12 @@ class Row {
 class Storage extends Cell{
     constructor(seed_num, index, side){
         super(seed_num, index, side);
+    }
+
+    transfer_seeds(cell){
+        let seeds = cell.get_seed_num();
+        cell.set_seed_num(0);
+        this.insert_seeds(seeds);
     }
 }
 
@@ -80,6 +89,35 @@ class Board {
     }
     set_p2_row(p2_row){
         this.p2_row = p2_row;
+    }
+
+    check_game_over(){
+        let gameOverTopCells = true, gameOverBottomCells = true;
+        const length = this.p1_row.get_length();
+        for(i = 0; i < length; i++){
+            if (this.p1_row.get_cell(i).get_seed_num() > 0) gameOverTopCells = false;
+        }
+        for(i = 0; i < length; i++){
+            if (this.p2_row.get_cell(i).get_seed_num() > 0) gameOverBottomCells = false;
+        }
+        return gameOverTopCells || gameOverBottomCells;
+    }
+
+    game_over(){
+        let p1_storage = this.p1_row.get_storage(), p2_storage = this.p2_row.get_storage();
+        for(i = 0; i < this.p1_row.get_length(); i++){
+            p1_storage.transfer_seeds(this.p1_row.get_cell(i));
+        }
+        for(i = 0; i < this.p2_row.get_length(); i++){
+            p2_storage.transfer_seeds(this.p2_row.get_cell(i));
+        }
+
+        const p1_score = p1_storage.get_seed_num();
+        const p2_score = p2_storage.get_seed_num();
+
+        if (p1_score > p2_score) return 1;
+        else if (p1_score < p2_score) return 2;
+        return 0;
     }
 }
 
@@ -109,21 +147,24 @@ function change_player(current_player){
     return 1;
 }
 
-function sow(board, index, player){
+function sow(board, index, player1){
     let cell;
-    const storage_index = board.get_p1_row().get_cells().length - 1;
-    switch (player) {  
+    const storage_index = board.get_p1_row().get_length();
+    switch (player1) {  
         case 1:
             cell = board.get_p1_row().get_cell(index);
+
             break;
         case 2:
             cell = board.get_p2_row().get_cell(index);
+            
             break;
         default:
             break;
     }
+
     let total_seeds = cell.get_seed_num();
-    let current_player = player;
+    let current_player = player1;
     let current_index = index;
     cell.set_seed_num(0);
     let current_cell;
@@ -133,7 +174,7 @@ function sow(board, index, player){
             current_player = change_player(current_player);
             current_index = 0;
         } else current_index++;
-        if ((current_index == storage_index) && (current_player != player)){
+        if ((current_index == storage_index) && (current_player != player1)){
             current_index = 0;
             current_player = change_player(current_player);
         }
@@ -145,16 +186,24 @@ function sow(board, index, player){
         }
         current_cell.insert_seeds(1);
     }
-    check_last_seed(board, current_cell, player)
+    check_last_seed(board, current_cell, player1);
+
+    if (board.check_game_over()){
+        let winner = board.game_over();
+        drawBoard(board);
+        announceWinner(winner);
+        return;
+    }
+    player = change_player(player);
     drawBoard(board);
 }
 
-function check_last_seed(board, cell, player){
+function check_last_seed(board, cell, player1){
     const length = board.get_p1_row().get_storage().get_index();
-    if (cell.get_seed_num() == 1 && cell.get_side() == player && cell.get_index() != length){
+    if (cell.get_seed_num() == 1 && cell.get_side() == player1 && cell.get_index() != length){
         const cell_index = cell.get_index()
         let storage, opposite;
-        switch (player) {  
+        switch (player1) {  
             case 1:
                 storage = board.get_p1_row().get_storage();
                 opposite = board.get_p2_row().get_cell(length - 1 - cell_index);
@@ -166,13 +215,7 @@ function check_last_seed(board, cell, player){
             default:
                 break;
         }
-        transfer_to_storage(cell, storage);
-        transfer_to_storage(opposite, storage);
+        storage.transfer_seeds(cell);
+        storage.transfer_seeds(opposite);
     }
-}
-
-function transfer_to_storage(cell, storage){
-    let seeds = cell.get_seed_num();
-    cell.set_seed_num(0);
-    storage.insert_seeds(seeds);
 }
