@@ -75,25 +75,39 @@ function giveUp(){
 }
 
 function begin(){
-    const button = document.getElementById("begin")
-    button.disabled = true;
-    const buttonGiveUp = document.getElementById("give-up")
-    buttonGiveUp.disabled = false;
-    const dropDown1 = document.getElementById("cavidades")
-    dropDown1.disabled = true;
-    const dropDown2 = document.getElementById("sementes")
-    dropDown2.disabled = true;
-    enableDisableComputerLvl(true);
-    const button1 = document.getElementById("player-1")
-    button1.disabled = true;
-    const button2 = document.getElementById("computer-1")
-    button2.disabled = true;
-    const button4 = document.getElementById("vs-computer")
-    button4.disabled = true;
-    const button5 = document.getElementById("vs-player")
-    button5.disabled = true;
-    
-    drawInitialBoard();
+
+    var auth_button = document.getElementById("register");
+    if (auth_button.style.display != "none"){
+    if (document.contains(document.getElementById("beg_warning"))) {
+        document.getElementById("beg_warning").remove();}   
+        var settings = document.getElementById("settings");
+        const warning = document.createElement("DIV");
+        warning.id = "beg_warning";
+        warning.classList.add("warning");
+        warning.appendChild(document.createTextNode("You must first authenticate to play"));
+        settings.appendChild(warning);
+    }
+    else{
+        const button = document.getElementById("begin")
+        button.disabled = true;
+        const buttonGiveUp = document.getElementById("give-up")
+        buttonGiveUp.disabled = false;
+        const dropDown1 = document.getElementById("cavidades")
+        dropDown1.disabled = true;
+        const dropDown2 = document.getElementById("sementes")
+        dropDown2.disabled = true;
+        enableDisableComputerLvl(true);
+        const button1 = document.getElementById("player-1")
+        button1.disabled = true;
+        const button2 = document.getElementById("computer-1")
+        button2.disabled = true;
+        const button4 = document.getElementById("vs-computer")
+        button4.disabled = true;
+        const button5 = document.getElementById("vs-player")
+        button5.disabled = true;
+        
+        // drawInitialBoard();
+    }
 }
 
 function getFormResult(id){
@@ -276,4 +290,28 @@ function drawInitialBoard(){
     let board = create_board(cavityNum, seedNum);
 
     drawBoard(board);
+}
+
+function drawBoardFromServer(serverInfo){
+    const player1 = Object.keys(serverInfo.stores)[0], player2 = Object.keys(serverInfo.stores)[1];
+    console.log(serverInfo);
+    console.log(serverInfo.board.sides[player1]);
+    console.log(serverInfo.stores);
+    console.log(player1, player2);
+}
+
+function logOut(){
+    var b_auth = document.getElementById("bef-auth");
+    var a_auth = document.getElementById("pos-auth");
+    b_auth.style.display = "block";
+    a_auth.style.display = "none";
+    document.getElementById('nome').value = "";
+    document.getElementById('password').value = "";
+    var auth_button = document.getElementById("register");
+    auth_button.style.display = "block"; 
+
+    if (document.contains(document.getElementById("auth-warning"))) {
+        document.getElementById("auth-warning").remove();}   
+    if (document.contains(document.getElementById("player-nic"))) {
+         document.getElementById("player-nic").remove();}   
 }

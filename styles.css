@@ -123,6 +123,17 @@ h1{
     border-radius: 50%;
 }
 
+/*--------------------------------------------------------- highscore table styles ---------------------------------------------------------*/
+
+#highscores-table{
+    margin: 2em auto;
+    width: 80%;
+}
+
+#highscores-table-head > tr > th, #highscores-table-body > tr > td{
+    text-align: left;
+}
+
 /*------------------------------------------------------------------------------------------------------------------------------------------*/
 
 .elem-settings{
@@ -165,6 +176,19 @@ h1{
     margin-top: 2.5%;
     margin-left: 3%;
 }
+
+.warning{
+    color: red;
+}
+
+#pos-auth{
+    display: none;
+}
+
+#bef-auth{
+    display: block;
+}
+
 .input-auth{
     height: 2%;
     width: 70%;

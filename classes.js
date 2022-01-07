@@ -147,6 +147,7 @@ function change_player(current_player){
     return 1;
 }
 
+
 function sow(board, index, player1){
     let cell;
     const storage_index = board.get_p1_row().get_length();

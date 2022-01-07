@@ -7,6 +7,7 @@
         <link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Yeon Sung|Sarabun">
         <script src="scripts.js"></script>
         <script src="classes.js"></script>
+        <script src="requests.js" defer></script>
     </head>
     <body onload="giveUp()">
         <div class="pop-up">
@@ -91,6 +92,15 @@
             <div id="classificacao">
                 <a href="#"><button type="button">X</button></a>
                 <h1 class="center-elem">Highscores:</h1>
+                <table id="highscores-table">
+                    <thead id="highscores-table-head">
+                        <tr>
+                            <th>username</th>
+                            <th>victories</th>
+                            <th>games</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
         <div id="logo">
@@ -155,22 +165,28 @@
             <div id="commands">
                 <div>
                     <div class="auth">
-                        <div>
-                            <label for="nome">Nome:</label>
-                            <input type="text" id="nome" name="nome" class ="input-auth"><br><br>
+                        <div id="bef-auth">
+                            <div>
+                                <label for="nome">Nome:</label>
+                                <input type="text" id="nome" name="nome" class ="input-auth"><br><br>
+                            </div>
+                            <div>
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password" class ="input-auth"><br><br>
+                            </div>
                         </div>
-                        <div>
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" class ="input-auth"><br><br>
+                        <div id="pos-auth">
+                            <button type="button" id ="log-out" class="right-button pop-up-buttons" onclick="logOut()">Sair</button>
                         </div>
                     </div>
+                    
                     <div class = "pop-ups">
                         <a href="#instructions"><button type="button" class=" right-button pop-up-buttons">Instruções</button></a>
-                        <a href="#classificacao"><button type="button" class=" right-button pop-up-buttons">Classificações</button></a>
+                        <a href="#classificacao"><button type="button" id ="rank-btn" class=" right-button pop-up-buttons">Classificações</button></a>
                     </div>
                 </div>
                 <div class="game-controls">
-                    <button type="button" class="auth-button game-buttons">Autenticar</button>
+                    <button type="button" class="auth-button game-buttons" id = "register">Autenticar</button>
                     <button type="button" class=" give-up-button game-buttons" id = "give-up" onclick="giveUp()">Desistir</button>
                 </div>
             </div>
