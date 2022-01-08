@@ -6,10 +6,11 @@
         <link rel = "stylesheet" href="styles.css">
         <link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Yeon Sung|Sarabun">
         <script src="scripts.js"></script>
+        <script src="scriptsFromServer.js"></script>
         <script src="classes.js"></script>
         <script src="requests.js" defer></script>
     </head>
-    <body onload="giveUp()">
+    <body onload="onloadSettings()">
         <div class="pop-up">
             <div id="instructions">
                 <a href ="#"><button type="button">X</button></a>
@@ -101,6 +102,17 @@
                         </tr>
                     </thead>
                 </table>
+            </div>
+        </div>
+        <div class="small-pop-up">
+            <div id="wait-message">
+                <p>À espera de outro jogador...</p>
+            </div>
+        </div>
+        <div class="small-pop-up">
+            <div id="timeout">
+                <a href="#"><button type="button">X</button></a>
+                <p id="timeout-message">timed out</p>
             </div>
         </div>
         <div id="logo">

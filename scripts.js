@@ -1,5 +1,6 @@
 var player = 1;
 
+
 function enableDisableComputerLvl(val){
     const form = document.getElementById("1");
     form.disabled = val;
@@ -14,6 +15,11 @@ function enableDisableComputerLvl(val){
 }
 
 function versusPlayer(){
+    começar.addEventListener('click', join);
+
+    const begin = document.getElementById("begin");
+    begin.disabled = false;
+
     const button = document.getElementById("vs-player");
     button.style.background = '#ffffff';
     const button3 = document.getElementById("vs-computer");
@@ -26,6 +32,11 @@ function versusPlayer(){
 }
 
 function versusComputer(){
+    começar.removeEventListener('click', join);
+
+    const begin = document.getElementById("begin");
+    begin.disabled = true;
+
     const button = document.getElementById("vs-computer");
     button.style.background = '#ffffff';
     const button3 = document.getElementById("vs-player");
@@ -54,6 +65,16 @@ function p1Computer(){
 function giveUp(){
     const button = document.getElementById("begin")
     button.disabled = false;
+    activateAllSettings();
+}
+
+function onloadSettings(){
+    const button = document.getElementById("begin")
+    button.disabled = true;
+    activateAllSettings();
+}
+
+function activateAllSettings(){
     const buttonGiveUp = document.getElementById("give-up")
     buttonGiveUp.disabled = true;
     const dropDown1 = document.getElementById("cavidades")
@@ -69,25 +90,27 @@ function giveUp(){
     button4.disabled = false;
     const button5 = document.getElementById("vs-player")
     button5.disabled = false;
-
-    removeElementsById("board-container");
-    
 }
 
 function begin(){
-
+    
     var auth_button = document.getElementById("register");
     if (auth_button.style.display != "none"){
-    if (document.contains(document.getElementById("beg_warning"))) {
-        document.getElementById("beg_warning").remove();}   
-        var settings = document.getElementById("settings");
-        const warning = document.createElement("DIV");
-        warning.id = "beg_warning";
-        warning.classList.add("warning");
-        warning.appendChild(document.createTextNode("You must first authenticate to play"));
-        settings.appendChild(warning);
+        if (document.contains(document.getElementById("beg_warning"))) {
+            document.getElementById("beg_warning").remove();}   
+            var settings = document.getElementById("settings");
+            const warning = document.createElement("DIV");
+            warning.id = "beg_warning";
+            warning.classList.add("warning");
+            warning.appendChild(document.createTextNode("You must first authenticate to play"));
+            settings.appendChild(warning);
     }
     else{
+        if (document.contains(document.getElementById("board-container"))) {
+            document.getElementById("board-container").remove();} 
+        if (document.contains(document.getElementById("turn"))) {
+                document.getElementById("turn").remove();}
+        waitMessage();
         const button = document.getElementById("begin")
         button.disabled = true;
         const buttonGiveUp = document.getElementById("give-up")
@@ -292,12 +315,24 @@ function drawInitialBoard(){
     drawBoard(board);
 }
 
-function drawBoardFromServer(serverInfo){
-    const player1 = Object.keys(serverInfo.stores)[0], player2 = Object.keys(serverInfo.stores)[1];
-    console.log(serverInfo);
-    console.log(serverInfo.board.sides[player1]);
-    console.log(serverInfo.stores);
-    console.log(player1, player2);
+function waitMessage(){
+    var waitMessagePopUp = document.getElementById("wait-message");
+    waitMessagePopUp.style.display = "block";
+}
+
+function removeWaitMessage(){
+    var waitMessagePopUp = document.getElementById("wait-message");
+    waitMessagePopUp.style.display = "none";
+}
+
+function timeOutMessage(){
+    var timeoutMessagePopUp = document.getElementById("timeout");
+    timeoutMessagePopUp.style.display = "block";
+}
+
+function removeTimeOutMessage(){
+    var timeoutMessagePopUp = document.getElementById("timeout");
+    timeoutMessagePopUp.style.display = "none";
 }
 
 function logOut(){

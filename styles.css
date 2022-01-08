@@ -2,6 +2,8 @@
     font-family: Sarabun;
     font-size: 20px;
 }
+
+
 html, body{
     margin: 0;
     height: 100%;
@@ -123,6 +125,10 @@ h1{
     border-radius: 50%;
 }
 
+#turn{
+    text-align: center;
+}
+
 /*--------------------------------------------------------- highscore table styles ---------------------------------------------------------*/
 
 #highscores-table{
@@ -195,7 +201,6 @@ h1{
     float: right;
 }
 .pop-ups{
-    z-index: 1;
     margin-top: 2.5%;
     float:left;
     width:30%;
@@ -228,6 +233,7 @@ h1{
 .pop-up div {
     display: none;
     position:fixed;
+    z-index: 99!important;
     background-color: rgb(204, 201, 201);
     top: 1%;
     width: 70%;
@@ -236,12 +242,32 @@ h1{
     overflow-y: scroll;
     padding: 1%;
 }
-  
 .pop-up div:target {
     display: block;
 }
 .rules-section{
     font-size: 30px;
+}
+.small-pop-up div{
+    border: 3px solid black;
+    display: none;
+    position:fixed;
+    background-color: rgb(150, 150, 150);
+    top: 45%;
+    height: 10%;
+    width: 25%;
+    right: 37.5%;
+    padding: 1%;
+}
+.small-pop-up p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+}
+.small-pop-up #timeout-message{
+    height: auto;
 }
 
 
@@ -264,6 +290,7 @@ img{
     display: block;
     margin-left: auto;
     margin-right: auto;
+
 }
 
 #final-message{

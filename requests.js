@@ -59,13 +59,12 @@ const regist = () =>{
             password: document.getElementById('password').value
         })
     }).then(res => {
-        if (!res.ok){
-            throw Error('User registered with a different password');
-        }
         return res.json();
-      
     }).then(
         data => {
+            if (data.hasOwnProperty('error')){
+                throw Error(data.error);
+            }
             player_nick = document.getElementById('nome').value;
             if (document.contains(document.getElementById("beg_warning"))) {
                 document.getElementById("beg_warning").remove();}  
@@ -109,22 +108,35 @@ const join = () =>{
         data => {
             desistir.addEventListener('click', leave);
             game_id = data.game;
+
             source = new EventSource("http://twserver.alunos.dcc.fc.up.pt:8008/update"+"?nick="+player_nick+"&game="+game_id);
             source.onmessage = (event) =>{
                 object = JSON.parse(event.data);
+
                 if (object.hasOwnProperty('board')){
                     board = object;
                     drawBoardFromServer(board);
+
                 }
-                else if (object.hasOwnProperty('winner')){
-                    winner = object;
-                    console.log("winner:)");
-                    console.log(winner.winner);
+                if (object.hasOwnProperty('winner')){
+                    if (!object.hasOwnProperty('board')){
+                        removeWaitMessage();
+                        if (object.winner == null){
+                            timeOutMessage();
+                        }
+                        else{
+                            //timed out because someone else didn't play for a while
+                        }
+                    }
+                    source.close;
+                    player1 = null;
+                    player2 = null;
+                    giveUp();
                 }
 
             }
         }
-    ).catch(error => console.log('ERROR'))
+    ).catch(error => console.log(error.message))
 }
 
 const leave = () =>{
@@ -138,29 +150,42 @@ const leave = () =>{
     }).then(res => {
       return res.json()
     }).then(data => {
-        source.close;
-        
+        removeWaitMessage();
+        source.close();
+        player1 = null;
+        player2 = null;
+        giveUp();
+        removeElementsById("board-container");
     }).catch(error => console.log('ERROR'))
 }
 
 
-const notice = () =>{
-    fetch('http://twserver.alunos.dcc.fc.up.pt:8008/notice',{
+const notify = (cur_move) =>{
+    fetch('http://twserver.alunos.dcc.fc.up.pt:8008/notify',{
         method: 'POST',
         body: JSON.stringify({
             nick: player_nick,
             password: document.getElementById('password').value,
             game: game_id,
-            move: ' '
+            move: cur_move
         })
     }).then(res => {
       return res.json()
     }).then(data => {
+        if (data.hasOwnProperty('error')){
+            throw Error(data.error);
+        }
     }
-    ).catch(error => console.log('ERROR'))
+    ).catch(error => {
+        //turn into messages on screen
+        console.log(error.message)
+    })
 }
 
 rankings.addEventListener('click', getRanking);
 register.addEventListener('click', regist);
-começar.addEventListener('click', join);
+
+    
+
+
 
