@@ -115,7 +115,7 @@ const join = () =>{
 
                 if (object.hasOwnProperty('board')){
                     board = object;
-                    drawBoardFromServer(board);
+                    drawBoardFromServer(board,false);
 
                 }
                 if (object.hasOwnProperty('winner')){
@@ -125,9 +125,10 @@ const join = () =>{
                             timeOutMessage();
                         }
                         else{
-                            //timed out because someone else didn't play for a while
+                            timeOutMessage();
                         }
                     }
+                    drawBoardFromServer(board,true);
                     source.close;
                     player1 = null;
                     player2 = null;
@@ -177,8 +178,17 @@ const notify = (cur_move) =>{
         }
     }
     ).catch(error => {
-        //turn into messages on screen
-        console.log(error.message)
+        if (document.contains(document.getElementById("warning"))) {
+            document.getElementById("warning").remove();} 
+
+        const warning = document.createElement("DIV");
+        warning.id = "warning";
+        warning.classList.add("warning");
+        let text = document.createTextNode(error.message);
+        warning.appendChild(text);
+
+        let container = document.getElementById("right-container");
+        container.appendChild(warning);
     })
 }
 

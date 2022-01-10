@@ -1,6 +1,6 @@
 var player1 = null, player2 = null;
 
-function insertCellsFromServer(p1ServerInfo, p2ServerInfo, cells){
+function insertCellsFromServer(p1ServerInfo, p2ServerInfo, cells,end){
     const cavityNum = p1ServerInfo.length;
     const topCells = document.createElement("DIV");
     const bottomCells = document.createElement("DIV");
@@ -20,7 +20,10 @@ function insertCellsFromServer(p1ServerInfo, p2ServerInfo, cells){
         let seedNum = p2ServerInfo[cavityNum - 1 - index];
         insertSeeds(cellElem, seedNum);
 
-        if (seedNum > 0 && player2 == player_nick) cellElem.addEventListener("click", function(){notify(cavityNum - 1 - p2Index)});
+        if (seedNum > 0 && player2 == player_nick && !end) {
+            cellElem.addEventListener("click", function(){notify(cavityNum - 1 - p2Index)})
+            cellElem.classList.add("playable_cell");
+        };
 
         topCells.appendChild(cellElem);
     }
@@ -35,14 +38,17 @@ function insertCellsFromServer(p1ServerInfo, p2ServerInfo, cells){
         let seedNum = p1ServerInfo[index];
         insertSeeds(cellElem, seedNum);
 
-        if (seedNum > 0 && player1 == player_nick) cellElem.addEventListener("click", function(){notify(p1Index)});
+        if (seedNum > 0 && player1 == player_nick && !end) {
+            cellElem.addEventListener("click", function(){notify(p1Index)})
+            cellElem.classList.add("playable_cell");
+        };
 
         bottomCells.appendChild(cellElem);
     }
     cells.appendChild(bottomCells);
 }
 
-function drawBoardFromServer(serverInfo){
+function drawBoardFromServer(serverInfo, end){
     if (player1 == null && player2 == null){
         player1 = Object.keys(serverInfo.stores)[0]; 
         player2 = Object.keys(serverInfo.stores)[1];
@@ -68,7 +74,7 @@ function drawBoardFromServer(serverInfo){
     removeElementsById("board-container");
 
     insertSeeds(player2Storage, serverInfo.board.sides[player2].store);
-    insertCellsFromServer(serverInfo.board.sides[player1].pits, serverInfo.board.sides[player2].pits, cells);
+    insertCellsFromServer(serverInfo.board.sides[player1].pits, serverInfo.board.sides[player2].pits, cells, end);
     insertSeeds(player1Storage, serverInfo.board.sides[player1].store);
 
     boardElem.appendChild(player2Storage);
@@ -86,16 +92,23 @@ function drawBoardFromServer(serverInfo){
 function announcePlayerTurn(serverInfo){
     if (document.contains(document.getElementById("turn"))) {
         document.getElementById("turn").remove();} 
-        
+    
+    if (document.contains(document.getElementById("warning"))) {
+        document.getElementById("warning").remove();}
+
     const playerElem = document.createElement("DIV");
     playerElem.id = "turn";
 
     let playerText;
 
     if (serverInfo.hasOwnProperty("winner")) playerText = document.createTextNode(serverInfo.winner + " won the game");
-    else playerText = document.createTextNode(serverInfo.board.turn + "'s turn");
+    else {
+        playerText = document.createTextNode(serverInfo.board.turn + "'s turn");
+    }
     playerElem.appendChild(playerText);
 
     let container = document.getElementById("right-container");
     container.appendChild(playerElem);
+
+
 }

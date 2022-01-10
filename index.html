@@ -96,9 +96,9 @@
                 <table id="highscores-table">
                     <thead id="highscores-table-head">
                         <tr>
-                            <th>username</th>
-                            <th>victories</th>
-                            <th>games</th>
+                            <th>Nome</th>
+                            <th>Vitórias</th>
+                            <th>Jogos</th>
                         </tr>
                     </thead>
                 </table>
@@ -106,12 +106,13 @@
         </div>
         <div class="small-pop-up">
             <div id="wait-message">
+                <img src="loading.gif" alt="Computer man" style="width:48px;height:48px;float:left">
                 <p>À espera de outro jogador...</p>
             </div>
         </div>
         <div class="small-pop-up">
             <div id="timeout">
-                <a href="#"><button type="button">X</button></a>
+                <button type="button" onclick="removeTimeOutMessage()">X</button>
                 <p id="timeout-message">timed out</p>
             </div>
         </div>

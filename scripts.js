@@ -64,15 +64,42 @@ function p1Computer(){
 
 function giveUp(){
     const button = document.getElementById("begin")
-    button.disabled = false;
+    button.disabled = true;
     activateAllSettings();
+    makeAllButtonsGrey();
+}
+
+function makeAllButtonsGrey(){
+    const button3 = document.getElementById("vs-player");
+    button3.style.background = '#ccccc9';
+    const button5 = document.getElementById("computer-1");
+    button5.style.background = '#ccccc9';
+    const button4 = document.getElementById("player-1")
+    button4.style.background = '#ccccc9';
+    const button6 = document.getElementById("vs-computer");
+    button6.style.background = '#ccccc9';
 }
 
 function onloadSettings(){
     const button = document.getElementById("begin")
     button.disabled = true;
     activateAllSettings();
+
+    if (localStorage.getItem('computer') == null){
+        localStorage.setItem('computer',0);
+    }
+    if (localStorage.getItem('player') == null){
+        localStorage.setItem('player',0);
+    }
+
 }
+
+//key should be either 'computer' or 'player'
+function increaseWins(key){
+    localStorage.setItem(key,parseInt(localStorage.getItem(key))+1);
+}
+
+
 
 function activateAllSettings(){
     const buttonGiveUp = document.getElementById("give-up")

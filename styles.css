@@ -108,6 +108,10 @@ h1{
     border-width: 1px 0 0 1px;
 }
 
+.playable_cell:hover{
+    background-color:salmon;
+}
+
 #top-cells, #bottom-cells{
     flex-grow: 1;
 }
@@ -291,6 +295,10 @@ img{
     margin-left: auto;
     margin-right: auto;
 
+}
+
+#warning{
+    text-align: center;
 }
 
 #final-message{
