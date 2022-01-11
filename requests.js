@@ -10,13 +10,16 @@ var board;
 var winner;
 
 const getRanking = () => {
-  fetch('http://twserver.alunos.dcc.fc.up.pt:8008/ranking',{
+  fetch('/ranking',{
       method: 'POST',
       body: JSON.stringify({})
   }).then(res => {
     return res.json()
   }).then(
       data => {
+            if (data.hasOwnProperty('error')){
+                throw Error(data.error);
+            }
             let table_body = document.getElementById("highscores-table-body");
             if(table_body != null){
                 table_body.remove();
@@ -48,11 +51,11 @@ const getRanking = () => {
             }
             table.appendChild(table_body);
         }
-  ).catch(error => console.log('ERROR'));
+  ).catch(error => console.log(error.message));
 };
 
 const regist = () =>{
-    fetch('http://twserver.alunos.dcc.fc.up.pt:8008/register',{
+    fetch('/register',{
         method: 'POST',
         body: JSON.stringify({
             nick: document.getElementById('nome').value,
@@ -93,7 +96,7 @@ const regist = () =>{
 }
 
 const join = () =>{
-    fetch('http://twserver.alunos.dcc.fc.up.pt:8008/join',{
+    fetch('/join',{
         method: 'POST',
         body: JSON.stringify({
             group: '085',

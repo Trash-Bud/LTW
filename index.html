@@ -9,6 +9,7 @@
         <script src="scriptsFromServer.js"></script>
         <script src="classes.js"></script>
         <script src="requests.js" defer></script>
+
     </head>
     <body onload="onloadSettings()">
         <div class="pop-up">
@@ -70,7 +71,7 @@
                 <p>Semeando cavidade agora vazia, a última semente cai no armazém e volta a jogar</p>
                 <p></p>
                 <b class="rules-section">Última semente em cavidade vazia</b>
-                <img src="ultima semente.png" alt="Peças de Mancala">
+                <img src="ultima_semente.png" alt="Peças de Mancala">
                 Se a <b>última</b> semente calhar numa <b>sua</b> cavidade <b>vazia</b>, transferir para o seu armazém as sementes
                 <ul></ul>
                 <li>na cavidade <b>oposta</b>, do adversário</li>
@@ -156,18 +157,13 @@
             <div class="elem-settings">
                 Nível do computador:
                 <div class="center-elem upper-margin">
-                    <label class="radio-button-label" id= "leel">1</label>
-                    <label class="radio-button-label">2</label>
-                    <label class="radio-button-label">3</label>
-                    <label class="radio-button-label">4</label>
-                    <label class="radio-button-label">5</label>
+                    <label for="basic" class="radio-button-label">Básico</label>
+                    <label for="advanced" class="radio-button-label">Avançado</label>
                 </div>
                 <form class="center-elem">
-                    <input type="radio" id="1" name="radio-answer" value="1" class="radio-button"> 
-                    <input type="radio" id="2" name="radio-answer" value="2" class="radio-button"> 
-                    <input type="radio" id="3" name="radio-answer" value="3" class="radio-button"> 
-                    <input type="radio" id="4" name="radio-answer" value="4" class="radio-button"> 
-                    <input type="radio" id="5" name="radio-answer" value="5" class="radio-button"> 
+                    <input type="radio" id="basic" name="radio-answer" value="basic" class="radio-button"> 
+                    <input type="radio" id="advanced" name="radio-answer" value="advanced" class="radio-button"> 
+
                 </form>
             </div>
             <div class="center-elem">
