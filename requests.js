@@ -5,7 +5,7 @@ const desistir = document.getElementById('give-up');
 var source;
 
 var game_id;
-var player_nick;
+var player_nick = "";
 var board;
 var winner;
 
@@ -109,8 +109,12 @@ const join = () =>{
       return res.json()
     }).then(
         data => {
-            desistir.addEventListener('click', leave);
+            if (data.hasOwnProperty('error')){
+                throw Error(data.error);
+            }
+            begin_server();
             game_id = data.game;
+            desistir.addEventListener('click', leave);
 
             source = new EventSource("http://twserver.alunos.dcc.fc.up.pt:8008/update"+"?nick="+player_nick+"&game="+game_id);
             source.onmessage = (event) =>{
@@ -140,11 +144,15 @@ const join = () =>{
 
             }
         }
-    ).catch(error => console.log(error.message))
+    ).catch(error => {
+        join_warning(error.message);
+    })
 }
 
+
+
 const leave = () =>{
-    fetch('http://twserver.alunos.dcc.fc.up.pt:8008/leave',{
+    fetch('/leave',{
         method: 'POST',
         body: JSON.stringify({
             nick: player_nick,
@@ -154,13 +162,17 @@ const leave = () =>{
     }).then(res => {
       return res.json()
     }).then(data => {
+        if (data.hasOwnProperty('error')){
+            throw Error(data.error);
+        }
+        console.log("???");
         removeWaitMessage();
         source.close();
         player1 = null;
         player2 = null;
         giveUp();
         removeElementsById("board-container");
-    }).catch(error => console.log('ERROR'))
+    }).catch(error => console.log(error.message))
 }
 
 

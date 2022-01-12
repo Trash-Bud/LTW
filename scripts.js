@@ -113,43 +113,51 @@ function activateAllSettings(){
     button5.disabled = false;
 }
 
+function disableAllSettings(){
+    if (document.contains(document.getElementById("board-container"))) {
+        document.getElementById("board-container").remove();} 
+    if (document.contains(document.getElementById("turn"))) {
+            document.getElementById("turn").remove();}
+    const button = document.getElementById("begin")
+    button.disabled = true;
+    const buttonGiveUp = document.getElementById("give-up")
+    buttonGiveUp.disabled = false;
+    const dropDown1 = document.getElementById("cavidades")
+    dropDown1.disabled = true;
+    const dropDown2 = document.getElementById("sementes")
+    dropDown2.disabled = true;
+    enableDisableComputerLvl(true);
+    const button1 = document.getElementById("player-1")
+    button1.disabled = true;
+    const button2 = document.getElementById("computer-1")
+    button2.disabled = true;
+    const button4 = document.getElementById("vs-computer")
+    button4.disabled = true;
+    const button5 = document.getElementById("vs-player")
+    button5.disabled = true;
+}
+
+function join_warning(text){
+    if (document.contains(document.getElementById("beg_warning"))) {
+        document.getElementById("beg_warning").remove();
+    }   
+    var settings = document.getElementById("settings");
+    const warning = document.createElement("DIV");
+    warning.id = "beg_warning";
+    warning.classList.add("warning");
+    warning.appendChild(document.createTextNode(text));
+    settings.appendChild(warning);
+}
+
+function begin_server(){
+    waitMessage();
+    disableAllSettings();
+}
+
 function begin(){
-    var auth_button = document.getElementById("register");
-    if (auth_button.style.display != "none" && mode == 0){
-        if (document.contains(document.getElementById("beg_warning"))) {
-            document.getElementById("beg_warning").remove();}   
-            var settings = document.getElementById("settings");
-            const warning = document.createElement("DIV");
-            warning.id = "beg_warning";
-            warning.classList.add("warning");
-            warning.appendChild(document.createTextNode("You must first authenticate to play"));
-            settings.appendChild(warning);
-    }
-    else{
-        if (document.contains(document.getElementById("board-container"))) {
-            document.getElementById("board-container").remove();} 
-        if (document.contains(document.getElementById("turn"))) {
-                document.getElementById("turn").remove();}
-        if (mode == 0) waitMessage();
-        const button = document.getElementById("begin")
-        button.disabled = true;
-        const buttonGiveUp = document.getElementById("give-up")
-        buttonGiveUp.disabled = false;
-        const dropDown1 = document.getElementById("cavidades")
-        dropDown1.disabled = true;
-        const dropDown2 = document.getElementById("sementes")
-        dropDown2.disabled = true;
-        enableDisableComputerLvl(true);
-        const button1 = document.getElementById("player-1")
-        button1.disabled = true;
-        const button2 = document.getElementById("computer-1")
-        button2.disabled = true;
-        const button4 = document.getElementById("vs-computer")
-        button4.disabled = true;
-        const button5 = document.getElementById("vs-player")
-        button5.disabled = true;
-        
-        if (mode == 1) drawInitialBoard();
+    if (mode == 1){
+        disableAllSettings();
+        drawInitialBoard();
     }
 }
 
@@ -376,6 +384,7 @@ function logOut(){
     document.getElementById('password').value = "";
     var auth_button = document.getElementById("register");
     auth_button.style.display = "block"; 
+    player_nick = "";
 
     if (document.contains(document.getElementById("auth-warning"))) {
         document.getElementById("auth-warning").remove();}   
