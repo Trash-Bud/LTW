@@ -116,7 +116,7 @@ const join = () =>{
             game_id = data.game;
             desistir.addEventListener('click', leave);
 
-            source = new EventSource("http://twserver.alunos.dcc.fc.up.pt:8008/update"+"?nick="+player_nick+"&game="+game_id);
+            source = new EventSource("/update"+"?nick="+player_nick+"&game="+game_id);
             source.onmessage = (event) =>{
                 object = JSON.parse(event.data);
 
@@ -135,7 +135,7 @@ const join = () =>{
                             timeOutMessage();
                         }
                     }
-                    drawBoardFromServer(board,true);
+                    else drawBoardFromServer(board,true);
                     source.close;
                     player1 = null;
                     player2 = null;

@@ -4,12 +4,24 @@ const url  = require('url');
 const fs   = require('fs');
 const conf = require('./conf.js'); 
 const crypto = require('crypto');
-const { Console } = require('console');
+let updater  = require('./updater.js');
 
 http.createServer((request,response) => {
     switch(request.method) {
         case 'GET':
-            doGetRequest(request,response);
+            if(request.url.startsWith('/update')){
+                if(updater.remember(response,request.url)){
+                    request.on('close', () =>
+                    updater.forget(response));
+                }
+                else{
+                    response.statusCode = 400;
+                    response.end(JSON.stringify({"error": "Bad Arguments!"}));
+                }
+            }
+            else{
+                doGetRequest(request,response);
+            }
             break;
         case 'POST':
             switch(request.url){
@@ -72,6 +84,7 @@ function getPathname(request) {
 
     return pathname;
 }
+
 
 
 function doGetPathname(pathname,response) {
@@ -275,7 +288,7 @@ function joinGame(result,response,data){
             }
             setTimeout(function() {
                 removePlayerIfMatched(result.nick);
-                //notify should be called here!
+                updater.update_player(result.nick,JSON.stringify({"winner":""}));
                     }, 10000);
         }
     });
@@ -337,7 +350,16 @@ function verifyIfPlayerInGame(player,response,data,game){
         response.end(JSON.stringify({"error": "Player is not in designated game!"}));
         return false;
     }
-    else return true;
+    else {
+        if (newobj[0].p1 != "" && newobj[0].p2 != ""){
+            if (newobj[0].p1 != player){
+                updater.update_game(newobj[0].game,JSON.stringify({"winner": newobj[0].p1}));
+            }
+            else updater.update_game(newobj[0].game,JSON.stringify({"winner": newobj[0].p2}));
+        }
+        else updater.update_game(newobj[0].game,JSON.stringify({"winner": ""}));
+        return true;
+    }
 }
 
 function removePlayerIfMatched(player){
