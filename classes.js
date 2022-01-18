@@ -138,8 +138,8 @@ function create_board(cell_number, seed_number){
     player1_cells = [];
     player2_cells = [];
     for (i = 0; i < cell_number; i++){
-        player1_cells[i] = new Cell(Number(seed_number) - (Number(seed_number) - 1), i, 1);
-        player2_cells[i] = new Cell(Number(seed_number) - (Number(seed_number) - 1), i, 2);
+        player1_cells[i] = new Cell(Number(seed_number) - Number(seed_number) + 2, i, 1);
+        player2_cells[i] = new Cell(Number(seed_number) - Number(seed_number) + 2, i, 2);
     }
     player1_cells.push(player1_storage);
     player2_cells.push(player2_storage);
@@ -160,7 +160,6 @@ function change_player(current_player){
 
 function sow(board, index, current_player){
     let cell;
-    // console.log();
     const storage_index = board.get_p1_row().get_length();
     switch (current_player) {  
         case 1:
@@ -178,28 +177,33 @@ function sow(board, index, current_player){
     let total_seeds = cell.get_seed_num();
     let current_board_side = current_player;
     let current_index = index;
-    cell.set_seed_num(0);
-    let current_cell;
-    for (i = 1; i <= total_seeds; i++){
 
-        if (current_index == storage_index){
-            current_board_side = change_player(current_board_side);
-            current_index = 0;
-        } else current_index++;
-        if ((current_index == storage_index) && (current_board_side != current_player)){
-            current_index = 0;
-            current_board_side = change_player(current_board_side);
-        }
-
-        if (current_board_side == 1){
-            current_cell = board.get_p1_row().get_cell(current_index);
-        } else {
-            current_cell = board.get_p2_row().get_cell(current_index);
-        }
-        current_cell.insert_seeds(1);
+    if (total_seeds == 1){ 
+        check_cell(board, cell, current_player); 
     }
-    check_last_seed(board, current_cell, current_player, current_index, storage_index);
+    else {
+        let current_cell;
+        cell.set_seed_num(0);
+        for (i = 1; i <= total_seeds; i++){
 
+            if (current_index == storage_index){
+                current_board_side = change_player(current_board_side);
+                current_index = 0;
+            } else current_index++;
+            if ((current_index == storage_index) && (current_board_side != current_player)){
+                current_index = 0;
+                current_board_side = change_player(current_board_side);
+            }
+
+            if (current_board_side == 1){
+                current_cell = board.get_p1_row().get_cell(current_index);
+            } else {
+                current_cell = board.get_p2_row().get_cell(current_index);
+            }
+            current_cell.insert_seeds(1);
+        }
+        check_last_seed(current_index, current_board_side, storage_index);
+    }
     if (board.check_game_over()){
         let winner = board.game_over();
 
@@ -207,31 +211,36 @@ function sow(board, index, current_player){
         announceWinner(winner);
         return;
     }
+    player = change_player(player);
     drawBoard(board);
 }
 
-function check_last_seed(board, cell, current_player, current_index, storage_index){
-    console.log(cell);
+function check_cell(board, cell){
+    let storage, opposite;
     const length = board.get_p1_row().get_storage().get_index();
-    if (cell.get_seed_num() == 1 && cell.get_side() == current_player && cell.get_index() != length){
-        const cell_index = cell.get_index()
-        let storage, opposite;
-        switch (current_player) {  
-            case 1:
-                storage = board.get_p1_row().get_storage();
-                opposite = board.get_p2_row().get_cell(length - 1 - cell_index);
-                break;
-            case 2:
-                storage = board.get_p2_row().get_storage();
-                opposite = board.get_p1_row().get_cell(length - 1 - cell_index);
-                break;
-            default:
-                break;
-        }
-        storage.transfer_seeds(cell);
-        storage.transfer_seeds(opposite);
+    const cell_index = cell.get_index();
+    switch (player) {  
+        case 1:
+            storage = board.get_p1_row().get_storage();
+            opposite = board.get_p2_row().get_cell(length - cell_index - 1);
+            break;
+        case 2:
+            storage = board.get_p2_row().get_storage();
+            opposite = board.get_p1_row().get_cell(length - cell_index - 1);
+            break;
+        default:
+            break;
     }
-    else if (current_index != storage_index) player = change_player(player);
+    storage.transfer_seeds(cell);
+    if (opposite.get_seed_num() != 0) player = change_player(player);
+    storage.transfer_seeds(opposite);
+}
+
+
+function check_last_seed(current_index, current_board_side, storage_index){
+    if (current_index == storage_index && player == current_board_side){
+        player = change_player(player);
+    }
 }
 
 function computer_lvl_1(board, possible_moves){
@@ -239,4 +248,8 @@ function computer_lvl_1(board, possible_moves){
         const move = possible_moves[Math.floor(Math.random() * possible_moves.length)];
         sow(board, move, player);
     }
+}
+
+function computer_lvl_2(board, possible_moves){
+
 }

@@ -35,15 +35,12 @@ module.exports.forget = function(response) {
 }
 
 module.exports.update_game = function(game,message) {
-
     for(var i = 0; i < responses.length;i++) {
-        
         if(game_list[i] == game) {responses[i].write('data: ' + message + '\n\n')};
     }
 }
 
 module.exports.update_player = function(player,message) {
-    console.log(message);
     for(var i = 0; i < responses.length;i++) {
         if(player_list[i] == player){ 
             responses[i].write('data: ' + message + '\n\n')}

@@ -9,8 +9,21 @@ var player_nick = "";
 var board;
 var winner;
 
+var paths =[["http://twserver.alunos.dcc.fc.up.pt:8008/ranking",
+            "http://twserver.alunos.dcc.fc.up.pt:8008/register",
+            "http://twserver.alunos.dcc.fc.up.pt:8008/join",
+            "http://twserver.alunos.dcc.fc.up.pt:8008/update",
+            "http://twserver.alunos.dcc.fc.up.pt:8008/leave",
+            "http://twserver.alunos.dcc.fc.up.pt:8008/notify"],
+            ["/ranking",
+            "/register",
+            "/join",
+            "/update",
+            "leave",
+            "/notify"]]
+
 const getRanking = () => {
-  fetch('/ranking',{
+  fetch(paths[server][0],{
       method: 'POST',
       body: JSON.stringify({})
   }).then(res => {
@@ -55,7 +68,7 @@ const getRanking = () => {
 };
 
 const regist = () =>{
-    fetch('/register',{
+    fetch(paths[server][1],{
         method: 'POST',
         body: JSON.stringify({
             nick: document.getElementById('nome').value,
@@ -96,7 +109,7 @@ const regist = () =>{
 }
 
 const join = () =>{
-    fetch('/join',{
+    fetch(paths[server][2],{
         method: 'POST',
         body: JSON.stringify({
             group: '085',
@@ -116,10 +129,10 @@ const join = () =>{
             game_id = data.game;
             desistir.addEventListener('click', leave);
 
-            source = new EventSource("/update"+"?nick="+player_nick+"&game="+game_id);
+            source = new EventSource(paths[server][3]+"?nick="+player_nick+"&game="+game_id);
             source.onmessage = (event) =>{
                 object = JSON.parse(event.data);
-
+                console.log(object);
                 if (object.hasOwnProperty('board')){
                     board = object;
                     drawBoardFromServer(board,false);
@@ -152,7 +165,7 @@ const join = () =>{
 
 
 const leave = () =>{
-    fetch('/leave',{
+    fetch(paths[server][4],{
         method: 'POST',
         body: JSON.stringify({
             nick: player_nick,
@@ -165,7 +178,6 @@ const leave = () =>{
         if (data.hasOwnProperty('error')){
             throw Error(data.error);
         }
-        console.log("???");
         removeWaitMessage();
         source.close();
         player1 = null;
@@ -177,7 +189,7 @@ const leave = () =>{
 
 
 const notify = (cur_move) =>{
-    fetch('http://twserver.alunos.dcc.fc.up.pt:8008/notify',{
+    fetch(paths[server][5],{
         method: 'POST',
         body: JSON.stringify({
             nick: player_nick,

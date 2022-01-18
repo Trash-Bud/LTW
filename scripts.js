@@ -1,12 +1,29 @@
 var player = 1;
 var first_player_computer = false;
 var mode = 0;
+var difficulty = 1;
+var server = 0;
 
 function enableDisableComputerLvl(val){
     const form = document.getElementById("basic");
     form.disabled = val;
     const form1 = document.getElementById("advanced");
     form1.disabled = val;
+}
+
+function enableDisableServer(val){
+    const form = document.getElementById("part2");
+    form.disabled = val;
+    const form1 = document.getElementById("part3");
+    form1.disabled = val;
+}
+
+function server_part_2(){
+    server = 0;
+}
+
+function server_part_3(){
+    server = 1;
 }
 
 function versusPlayer(){
@@ -24,6 +41,7 @@ function versusPlayer(){
     const button2 = document.getElementById("computer-1");
     button2.disabled = true;
     enableDisableComputerLvl(true);
+    enableDisableServer(false);
 }
 
 function versusComputer(){
@@ -40,6 +58,7 @@ function versusComputer(){
     const button2 = document.getElementById("computer-1");
     button2.disabled = false;
     enableDisableComputerLvl(false);
+    enableDisableServer(true);
 }
 
 function p1Player(){
@@ -269,13 +288,14 @@ function insertCells(board, cells){
         cellElem.id = "p2-" + i;
         cellElem.className = "cell";
 
-        let seedNum = board.get_p2_row().get_cell(i).get_seed_num();
+        let seedNum = board.get_p2_row().get_cell(p2Index).get_seed_num();
 
         insertSeeds(cellElem, seedNum);
 
         if (seedNum > 0 && player == 2 && first_player_computer) cellElem.addEventListener("click", 
         function(){
-            sow(board, i, player);
+            console.log(p2Index, cavityNum - p2Index - 1);
+            sow(board, p2Index, player);
             board.check_game_over();
         });
         else if (seedNum > 0 && player == 2 && !first_player_computer){
@@ -288,10 +308,10 @@ function insertCells(board, cells){
     for (i = 0; i < cavityNum; i++){
         const p1Index = i;
         const cellElem = document.createElement("DIV");
-        cellElem.id = "p1-" + i;
+        cellElem.id = "p1-" + p1Index;
         cellElem.className = "cell";
 
-        let seedNum = board.get_p1_row().get_cell(i).get_seed_num();
+        let seedNum = board.get_p1_row().get_cell(p1Index).get_seed_num();
 
         insertSeeds(cellElem, seedNum);
 

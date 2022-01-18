@@ -166,6 +166,19 @@
 
                 </form>
             </div>
+            <div class="elem-settings">
+                Servidor:
+                <div class="center-elem upper-margin">
+                    <label for="part2" class="radio-button-label">Parte 2</label>
+                    <label for="part3" class="radio-button-label">Parte 3</label>
+                </div>
+                <form class="center-elem">
+                    <input type="radio" id="part2" name="radio-answer" value="part2" class="radio-button" onclick = "server_part_2()" checked> 
+                    <input type="radio" id="part3" name="radio-answer" value="part3" class="radio-button" onclick = "server_part_3()"> 
+
+                </form>
+            </div>
+            
             <div class="center-elem">
                 <button type="button" class="big-button" id="begin" onclick="begin()">Começar</button>
             </div>
@@ -202,4 +215,3 @@
         </div>
     </body>
 </html>
-

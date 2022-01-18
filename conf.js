@@ -9,4 +9,6 @@ module.exports.mediaTypes = {
     'png':      'image/png',
     'jpeg':     'image/jpeg',
     'jpg':      'image/jpeg',
+    'gif':      'image/gif',
+    'ico':      'image/ico'
 }
