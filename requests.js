@@ -125,6 +125,10 @@ const join = () =>{
             if (data.hasOwnProperty('error')){
                 throw Error(data.error);
             }
+            else if (player_nick == ""){
+                throw Error("Name and password cannot be empty");
+            }
+            
             begin_server();
             game_id = data.game;
             desistir.addEventListener('click', leave);

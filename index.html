@@ -3,8 +3,8 @@
     <head>
         <meta charset=UTF-8>    
         <title>Mancala</title> 
-        <link rel = "stylesheet" href="styles.css">
-        <link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Yeon Sung|Sarabun">
+        <link rel = "stylesheet" href="style.css">
+        <link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Yeon%20Sung%7CSarabun">
         <script src="scripts.js"></script>
         <script src="scriptsFromServer.js"></script>
         <script src="classes.js"></script>
@@ -14,56 +14,65 @@
     <body onload="onloadSettings()">
         <div class="pop-up">
             <div id="instructions">
-                <a href ="#"><button type="button">X</button></a>
+                <button type="button" onclick="window.location.href='#'">X</button>
 
                 <h1 class="center-elem">Regras:</h1>
                 <b class="rules-section">Tabuleiro</b>
                 <img src="tabuleiro1.png" alt="Tabuleiro de Mancala vazio">
-                <ul></ul>
-                <li>2 conjuntos de cavidades centrais alinhadas</li>
-                <li>Ladeados por 2 armazéns — cavidades maiores</li>
-                <li>Cada jogador controla as cavidades do seu lado …</li>
-                <li>… bem como o armazém que fica à sua direita</li>
+                <ul>
+                    <li>2 conjuntos de cavidades centrais alinhadas</li>
+                    <li>Ladeados por 2 armazéns — cavidades maiores</li>
+                    <li>Cada jogador controla as cavidades do seu lado …</li>
+                    <li>… bem como o armazém que fica à sua direita</li>
+                </ul>
                 <p></p>
                 <b class="rules-section">Peças</b>
                 <img src="pecas.png" alt="Peças de Mancala">
-                <ul></ul>
-                <li>As peças denominam-se sementes</li>
-                <li>Representáveis visualmente como discos ou elipses</li>
-                <li>Devem ser dispostas dentro das cavidades</li>
-                <li>Desafio extra: evitar uma disposição excessivamente regular</li>
+                <ul>
+                    <li>As peças denominam-se sementes</li>
+                    <li>Representáveis visualmente como discos ou elipses</li>
+                    <li>Devem ser dispostas dentro das cavidades</li>
+                    <li>Desafio extra: evitar uma disposição excessivamente regular</li>
+                </ul>
                 <p></p>
                 <b class="rules-section">Início do jogo</b>
                 <img src="inicio.png" alt="Peças de Mancala">
-                <ul></ul>
-                <li>Os armazéns estão vazios (sem sementes)</li>
-                <li>As restantes cavidades têm o mesmo número de sementes</li>
+                <ul>
+                    <li>Os armazéns estão vazios (sem sementes)</li>
+                    <li>As restantes cavidades têm o mesmo número de sementes</li>
+                </ul>
                 <p></p>
                 <b class="rules-section">Forma de jogar</b>
                 <img src="inicio.png" alt="Peças de Mancala">
-                <ul></ul>
-                <li>Jogadores semeiam as suas sementes alternadamente</li>
-                <li>Na sua vez semeiam a partir de uma das suas cavidades</li>
-                <li>Consoante a situação da última semente semeada, podem</li>
-                    <dd>- voltar a jogar</dd>
-                    <dd>- ficar com algumas sementes do adversário</dd>
-                <li>Termina quando um dos jogadores fica sem sementes</li>
+                <ul>
+                    <li>Jogadores semeiam as suas sementes alternadamente</li>
+                    <li>Na sua vez semeiam a partir de uma das suas cavidades</li>
+                    <li>Consoante a situação da última semente semeada, podem:
+                        <ul>
+                            <li> voltar a jogar</li>
+                            <li> ficar com algumas sementes do adversário</li>
+                        </ul>
+                    </li>
+                    <li>Termina quando um dos jogadores fica sem sementes</li>
+                </ul>
                 <p></p>
                 <b class="rules-section">Começar a semear</b>
                 <img src="semear.png" alt="Peças de Mancala">
-                <ul></ul>
-                <li>Escolher uma cavidade do seu lado (que não o armazém)</li>
-                <li>Recolher todas as N sementes dessa cavidade</li>
-                <li>Colocar 1 semente nas N cavidade seguintes</li>
-                <li>A semeadura é feita no sentido anti-horário</li>
+                <ul>
+                    <li>Escolher uma cavidade do seu lado (que não o armazém)</li>
+                    <li>Recolher todas as N sementes dessa cavidade</li>
+                    <li>Colocar 1 semente nas N cavidade seguintes</li>
+                    <li>A semeadura é feita no sentido anti-horário</li>
+                </ul>
                 <p></p>
                 <b class="rules-section">Continuar a semear</b>
                 <img src="semear2.png" alt="Peças de Mancala">
-                <ul></ul>
-                <li>Se a cavidade seguinte for o seu armazém, semear também</li>
-                <li>Sobrando sementes, continuar no lado do adversário</li>
-                <li>Se atingir o armazém do adversário, não semear</li>
-                <li>Mas depois continuar do seu lado, se ainda tiver sementes</li>
+                <ul>
+                    <li>Se a cavidade seguinte for o seu armazém, semear também</li>
+                    <li>Sobrando sementes, continuar no lado do adversário</li>
+                    <li>Se atingir o armazém do adversário, não semear</li>
+                    <li>Mas depois continuar do seu lado, se ainda tiver sementes</li>
+                </ul>
                 <p></p>
                 <b class="rules-section">Última semente em armazem</b>
                 <img src="ultimo.png" alt="Peças de Mancala">
@@ -73,26 +82,28 @@
                 <b class="rules-section">Última semente em cavidade vazia</b>
                 <img src="ultima_semente.png" alt="Peças de Mancala">
                 Se a <b>última</b> semente calhar numa <b>sua</b> cavidade <b>vazia</b>, transferir para o seu armazém as sementes
-                <ul></ul>
-                <li>na cavidade <b>oposta</b>, do adversário</li>
-                <li>assim como essa última semente semeada</li>
+                <ul>
+                    <li>na cavidade <b>oposta</b>, do adversário</li>
+                    <li>assim como essa última semente semeada</li>
+                </ul>
                 <p></p>
                 <i>Semeando a partir da 3ª cavidade a contar da esquerda acrescenta 6 + 1 sementes ao seu armazém</i>
                 <p></p>
                 <b class="rules-section">Terminar</b>
                 <img src="terminar.png" alt="Peças de Mancala">
-                <ul></ul>
-                <li>Jogo termina quando um dos jogadores não pode jogar</li>
-                <li>… porque todas as suas cavidades estão vazias</li>
-                <li>O outro jogador recolhe sementes nas suas cavidades …</li>
-                <li>… que são colocadas no seu armazém</li>
-                <li>Ganha jogador cujo armazém tem mais sementes</li>
+                <ul>
+                    <li>Jogo termina quando um dos jogadores não pode jogar</li>
+                    <li>… porque todas as suas cavidades estão vazias</li>
+                    <li>O outro jogador recolhe sementes nas suas cavidades …</li>
+                    <li>… que são colocadas no seu armazém</li>
+                    <li>Ganha jogador cujo armazém tem mais sementes</li>
+                </ul>
             </div>
             
         </div>
         <div class="pop-up">
             <div id="classificacao">
-                <a href="#"><button type="button">X</button></a>
+                <button type="button" onclick="window.location.href='#'">X</button>
                 <h1 class="center-elem">Highscores:</h1>
                 <table id="highscores-table">
                     <thead id="highscores-table-head">
@@ -120,7 +131,7 @@
         <div id="logo">
             <h1>Mancala</h1>
         </div>
-        <div id="conteudo">
+        
         <div id="settings">
             <div class="elem-settings">
                 Número de cavidades por lado:
@@ -160,7 +171,7 @@
                     <label for="basic" class="radio-button-label">Básico</label>
                     <label for="advanced" class="radio-button-label">Avançado</label>
                 </div>
-                <form class="center-elem">
+                <form class="center-elem" onchange = "changeComputerLvl()">
                     <input type="radio" id="basic" name="radio-answer" value="basic" class="radio-button"> 
                     <input type="radio" id="advanced" name="radio-answer" value="advanced" class="radio-button"> 
 
@@ -203,8 +214,8 @@
                     </div>
                     
                     <div class = "pop-ups">
-                        <a href="#instructions"><button type="button" class=" right-button pop-up-buttons">Instruções</button></a>
-                        <a href="#classificacao"><button type="button" id ="rank-btn" class=" right-button pop-up-buttons">Classificações</button></a>
+                        <button type="button" class=" right-button pop-up-buttons" onclick="window.location.href='#instructions'">Instruções</button>
+                        <button type="button" id ="rank-btn" class=" right-button pop-up-buttons" onclick="window.location.href='#classificacao'">Classificações</button>
                     </div>
                 </div>
                 <div class="game-controls">

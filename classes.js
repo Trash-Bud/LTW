@@ -138,8 +138,8 @@ function create_board(cell_number, seed_number){
     player1_cells = [];
     player2_cells = [];
     for (i = 0; i < cell_number; i++){
-        player1_cells[i] = new Cell(Number(seed_number) - Number(seed_number) + 2, i, 1);
-        player2_cells[i] = new Cell(Number(seed_number) - Number(seed_number) + 2, i, 2);
+        player1_cells[i] = new Cell(Number(seed_number), i, 1);
+        player2_cells[i] = new Cell(Number(seed_number), i, 2);
     }
     player1_cells.push(player1_storage);
     player2_cells.push(player2_storage);
@@ -174,6 +174,7 @@ function sow(board, index, current_player){
             break;
     }
 
+    console.log(cell);
     let total_seeds = cell.get_seed_num();
     let current_board_side = current_player;
     let current_index = index;
@@ -243,13 +244,34 @@ function check_last_seed(current_index, current_board_side, storage_index){
     }
 }
 
-function computer_lvl_1(board, possible_moves){
+async function computer_lvl_1(board, possible_moves){
     if (possible_moves.length != 0){
         const move = possible_moves[Math.floor(Math.random() * possible_moves.length)];
+        await new Promise(r => setTimeout(r, 1000));
         sow(board, move, player);
     }
 }
 
-function computer_lvl_2(board, possible_moves){
+async function computer_lvl_2(board){
+    let row, seed_max = 0, move;
 
+    switch (player){
+        case 1:
+            row = board.get_p1_row();
+            break;
+        case 2:
+            row = board.get_p2_row();
+            break;
+        default:
+            break;
+    }
+    for (let i = 0; i < row.get_length();i++){
+        if (row.get_cell(i).get_seed_num() > seed_max){
+            move = row.get_cell(i).get_index();
+            seed_max = row.get_cell(i).get_seed_num();
+        }
+    }
+
+    await new Promise(r => setTimeout(r, 5000));
+    sow(board, move, player);
 }

@@ -55,6 +55,7 @@ h1{
 
 #board-container{
     display: none;
+    flex-direction: column;
 }
 
 #board{
@@ -147,7 +148,7 @@ h1{
 /*------------------------------------------------------------------------------------------------------------------------------------------*/
 
 .elem-settings{
-    padding-bottom: 1em;
+    padding-bottom: 0.3em;
 }
 .center-elem{
     text-align: center;

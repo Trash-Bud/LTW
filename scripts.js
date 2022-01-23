@@ -11,6 +11,12 @@ function enableDisableComputerLvl(val){
     form1.disabled = val;
 }
 
+function changeComputerLvl(){
+    const form = document.getElementById("basic");
+    if (form.checked) difficulty = 1;
+    else difficulty = 2;
+}
+
 function enableDisableServer(val){
     const form = document.getElementById("part2");
     form.disabled = val;
@@ -81,24 +87,14 @@ function giveUp(){
     const button = document.getElementById("begin")
     button.disabled = true;
     activateAllSettings();
-    makeAllButtonsGrey();
-}
 
-function makeAllButtonsGrey(){
-    const button3 = document.getElementById("vs-player");
-    button3.style.background = '#ccccc9';
-    const button5 = document.getElementById("computer-1");
-    button5.style.background = '#ccccc9';
-    const button4 = document.getElementById("player-1")
-    button4.style.background = '#ccccc9';
-    const button6 = document.getElementById("vs-computer");
-    button6.style.background = '#ccccc9';
 }
 
 function onloadSettings(){
     const button = document.getElementById("begin")
     button.disabled = true;
     activateAllSettings();
+
 
     if (localStorage.getItem('computer') == null){
         localStorage.setItem('computer',0);
@@ -130,6 +126,16 @@ function activateAllSettings(){
     button4.disabled = false;
     const button5 = document.getElementById("vs-player")
     button5.disabled = false;
+
+    const form = document.getElementById("basic");
+    form.checked = true;
+    difficulty = 1;
+
+    const button = document.getElementById("player-1");
+    button.style.background = '#ffffff';
+    const button3 = document.getElementById("computer-1");
+    button3.style.background = '#ccccc9';
+    first_player_computer = false;
 }
 
 function disableAllSettings(){
@@ -222,7 +228,7 @@ function announceWinner(winner){
     const container = document.getElementById("right-container");
 
     finalMessage.id = "final-message";
-
+    removeElementsById("turn");
     removeElementsById(finalMessage.id);
 
     switch (winner){
@@ -286,20 +292,22 @@ function insertCells(board, cells){
         const p2Index = i;
         const cellElem = document.createElement("DIV");
         cellElem.id = "p2-" + i;
-        cellElem.className = "cell";
+        cellElem.classList.add("cell");
 
-        let seedNum = board.get_p2_row().get_cell(p2Index).get_seed_num();
+        let seedNum = board.get_p2_row().get_cell(cavityNum - p2Index - 1).get_seed_num();
 
         insertSeeds(cellElem, seedNum);
 
-        if (seedNum > 0 && player == 2 && first_player_computer) cellElem.addEventListener("click", 
+        if (seedNum > 0 && player == 2 && first_player_computer){ 
+        cellElem.addEventListener("click", 
         function(){
-            console.log(p2Index, cavityNum - p2Index - 1);
-            sow(board, p2Index, player);
+            sow(board, cavityNum - p2Index - 1, player);
             board.check_game_over();
         });
-        else if (seedNum > 0 && player == 2 && !first_player_computer){
-            possibleMoves.push(p2Index);
+        cellElem.classList.add("playable_cell");
+        }
+        else if (seedNum > 0 && player == 2 && !first_player_computer && difficulty == 1){
+            possibleMoves.push(cavityNum - p2Index - 1);
         }
         topCells.appendChild(cellElem);
     }
@@ -309,18 +317,21 @@ function insertCells(board, cells){
         const p1Index = i;
         const cellElem = document.createElement("DIV");
         cellElem.id = "p1-" + p1Index;
-        cellElem.className = "cell";
+        cellElem.classList.add("cell");
 
         let seedNum = board.get_p1_row().get_cell(p1Index).get_seed_num();
 
         insertSeeds(cellElem, seedNum);
 
-        if (seedNum > 0 && player == 1 && !first_player_computer) cellElem.addEventListener("click", 
-        function(){
-            sow(board, p1Index, player);
-            board.check_game_over();
-        });
-        else if (seedNum > 0 && player == 1 && first_player_computer){
+        if (seedNum > 0 && player == 1 && !first_player_computer){
+            cellElem.addEventListener("click", 
+            function(){
+                sow(board, p1Index, player);
+                board.check_game_over();
+            });
+            cellElem.classList.add("playable_cell")
+        }
+        else if (seedNum > 0 && player == 1 && first_player_computer && difficulty == 1){
             possibleMoves.push(p1Index);
         }
         bottomCells.appendChild(cellElem);
@@ -328,7 +339,7 @@ function insertCells(board, cells){
     cells.appendChild(bottomCells);
 
     if ((player == 1 && first_player_computer) || (player == 2 && !first_player_computer)){
-        computer_lvl_1(board,possibleMoves);
+        difficulty == 1 ? computer_lvl_1(board,possibleMoves) : computer_lvl_2(board);
     }
 }
 
@@ -364,6 +375,11 @@ function drawBoard(board){
     var board = document.getElementById("board-container");
     board.style.display = "flex";
     
+    var turn = document.createElement("DIV");
+    turn.id = "turn";
+    var turnText = document.createTextNode("player " + player + " turn");
+    turn.appendChild(turnText);
+    container.appendChild(turn);
 }
 
 function drawInitialBoard(){
